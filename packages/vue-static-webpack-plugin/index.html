@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="initial-scale=1.0, width=device-width">
+  {{{ meta.inject().title.text() }}}
+  {{{ meta.inject().meta.text() }}}
+  {{{ meta.inject().link.text() }}}
+  <link rel="preload" href="{{ pageDataPath }}" as="fetch" crossorigin="anonymous">
+  {{{ meta.inject().script.text() }}}
+</head>
+
+<body>
+  <script type="text/javascript">
+  const LIGHTS_OUT = "lights-out";
+  const darkMode = window.localStorage.getItem(LIGHTS_OUT) === "true";
+  document.documentElement.toggleAttribute(LIGHTS_OUT, darkMode);
+  </script>
+  <!--vue-ssr-outlet-->
+</body>
+
+</html>

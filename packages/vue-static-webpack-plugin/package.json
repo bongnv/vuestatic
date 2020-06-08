@@ -1,0 +1,13 @@
+{
+  "name": "@bongnv/vue-static-webpack-plugin",
+  "version": "0.0.0",
+  "description": "A Webpack plugin to generate Vue-powered static sites",
+  "main": "index.js",
+  "author": "Bong Nguyen",
+  "license": "MIT",
+  "dependencies": {
+    "cheerio": "^1.0.0-rc.3",
+    "html-minifier": "^4.0.0",
+    "vue-server-renderer": "^2.6.11"
+  }
+}

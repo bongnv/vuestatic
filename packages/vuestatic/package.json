@@ -9,6 +9,7 @@
   "author": "Bong Nguyen",
   "license": "MIT",
   "dependencies": {
+    "@bongnv/vue-static-webpack-plugin": "^0.0.0",
     "cac": "^6.5.10",
     "vue-server-renderer": "^2.6.11",
     "webpack": "^4.43.0",
