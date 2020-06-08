@@ -1,9 +1,7 @@
-const App = require("./App");
-const resolveConfig = require("./resolveConfig");
+const Execution = require("./Execution");
 
 const vueStatic = (config) => {
-  const resolvedConfig = resolveConfig(config);
-  return new App(resolvedConfig);
+  return new Execution(config);
 };
 
 module.exports = vueStatic;
