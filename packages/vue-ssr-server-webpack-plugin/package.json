@@ -1,0 +1,7 @@
+{
+  "name": "@bongnv/vue-ssr-server-webpack-plugin",
+  "version": "0.0.0",
+  "description": "A fork of VueSSRServerPlugin",
+  "main": "index.js",
+  "license": "MIT"
+}
