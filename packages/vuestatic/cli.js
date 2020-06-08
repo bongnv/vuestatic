@@ -1,11 +1,13 @@
 #!/usr/bin/env node
 
-const cli = require('cac')();
+const cac = require('cac');
+const vueStatic = require("./vueStatic");
 
+const cli = cac("vuestatic");
 cli
-  .command('build', "Build to the project")
+  .command("", "Build the static site")
   .action((options) => {
-    console.log("build with options", options);
+    vueStatic(options).run();
   })
 
 cli.help();
