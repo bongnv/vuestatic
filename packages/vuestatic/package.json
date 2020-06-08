@@ -10,6 +10,8 @@
   "license": "MIT",
   "dependencies": {
     "cac": "^6.5.10",
-    "webpack": "^4.43.0"
+    "vue-server-renderer": "^2.6.11",
+    "webpack": "^4.43.0",
+    "webpack-dev-server": "^3.11.0"
   }
 }

@@ -3,9 +3,6 @@
   "devDependencies": {
     "lerna": "^2.11.0"
   },
-  "dependencies": {
-    "webpack": "^4.43.0"
-  },
   "workspaces": [
     "packages/*"
   ]
