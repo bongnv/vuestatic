@@ -28,7 +28,7 @@ class App {
       after: (app, server) => {
         app.use(devMiddleware(serverCompiler, server.middleware));
       },
-    }
+    };
     const server = new webpackDevServer(clientCompiler, devServerConfig);
 
     server.listen(5000, "localhost", () => {
