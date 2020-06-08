@@ -1,10 +1,8 @@
 class DevServerPlugin {
-  apply({ steps, hooks }) {
+  apply({ hooks }) {
     const pluginName = "DevServerPlugin";
 
-    steps.push("dev");
-
-    hooks.stepsInitialized.tap(pluginName, ({ hooks }) => {
+    hooks["dev"] &&
       hooks["dev"].tapAsync(pluginName, (execution, callback) => {
         const webpack = require("webpack");
         const devMiddleware = require("./staticDevMiddleware");
@@ -31,7 +29,6 @@ class DevServerPlugin {
           callback();
         });
       });
-    })
   }
 }
 
