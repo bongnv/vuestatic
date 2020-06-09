@@ -4,8 +4,13 @@
     "packages/*"
   ],
   "command": {
+    "create": {
+      "license": "MIT"
+    },
     "publish": {
-      "conventionalCommits": true
+      "allowBranch": "master",
+      "conventionalCommits": true,
+      "message": "chore(release): Publish"
     }
   },
   "version": "independent",
