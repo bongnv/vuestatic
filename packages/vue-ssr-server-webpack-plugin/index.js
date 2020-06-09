@@ -15,7 +15,7 @@ class VueSSRServerWebpackPlugin {
       const entryName = this.entryName || Object.keys(stats.entrypoints)[0];
       const entryInfo = stats.entrypoints[entryName];
       if (!entryInfo) {
-        return;
+        throw new Error(`Entry ${entryName} not found!`)
       }
 
       const entryAssets = entryInfo.assets.filter(isJS);

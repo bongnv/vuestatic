@@ -1,6 +1,6 @@
 class DevServerPlugin {
   apply({ config, hooks }) {
-    if (!config.isDev) {
+    if (!config.isWatch) {
       console.log("Skip processing as this is not a development execution.");
       return;
     }
@@ -15,10 +15,10 @@ class DevServerPlugin {
 
         const { serverWebpackConfig, clientWebpackConfig, staticWebpackConfig } = execution.config;
         const serverCompiler = webpack(serverWebpackConfig.toConfig());
-        const clientCompiler = webpack(clientWebpackConfig);
+        const clientCompiler = webpack(clientWebpackConfig.toConfig());
 
         const devServerConfig = {
-          ...clientWebpackConfig.devServer,
+          ...clientWebpackConfig.toConfig().devServer,
           contentBase: path.join(execution.config.serverPath, "static"),
           serveIndex: false,
           after: (app, server) => {

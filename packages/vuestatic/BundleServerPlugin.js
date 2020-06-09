@@ -1,56 +1,31 @@
-const ASSETS_FOLDER = "_assets";
-
 class BundleServerPlugin {
   apply({ hooks }) {
     const pluginName = "BundleServerPlugin";
 
     hooks["config"].tap(pluginName, ({ config }) => {
       const path = require("path");
-      const Config = require('webpack-chain');
-      const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-      const { VueLoaderPlugin } = require("vue-loader");
+      const Config = require("webpack-chain");
       const VueServerBundlePlugin = require("@bongnv/vue-ssr-server-webpack-plugin");
 
-
-      const baseDir = path.resolve(process.cwd());
-      const isPrd = process.env.NODE_ENV === "production";
+      const { applyBaseConfig } = require("./webpackConfig");
+      const { isWatch, isProd } = config;
 
       const webpackConfig = new Config();
+      applyBaseConfig(config, webpackConfig);
+
       webpackConfig
-        .mode(isPrd ? "production" : "development")
         .target("node")
-        .entry("app")
-        .add("./src/entry-server.js")
+        .entry("static-props")
+        .add("./src/static-props.js")
         .end()
-        .entry('static-props')
-        .add('./src/static-props.js');
+        .entry("server")
+        .add("./src/entry-server.js")
+        .end();
 
       webpackConfig.output
         .libraryTarget("commonjs2")
         .path(config.serverPath)
         .filename("[name].js");
-
-      webpackConfig.module
-        .rule("compile-vue")
-        .test(/\.vue$/)
-        .use("vue-loader")
-        .loader("vue-loader");
-
-      webpackConfig.module
-        .rule("compile-css")
-        .test(/\.css$/)
-        .use("vue-style-loader")
-        .loader("vue-style-loader")
-        .end()
-        .use("css-loader")
-        .loader("css-loader")
-        .options({
-          importLoaders: 1,
-        })
-        .end()
-        .use("postcss-loader")
-        .loader("postcss-loader")
-        .end();
 
       webpackConfig.module
         .rule("compile-md")
@@ -61,6 +36,10 @@ class BundleServerPlugin {
           plugins: [require("@bongnv/markdown-images-plugin")],
         });
 
+      const imagesDir = path.join(
+        isWatch ? "static" : path.relative(config.serverPath, config.outputDir),
+        "_assets/images",
+      );
       webpackConfig.module
         .rule("compile-images")
         .test(/\.(jpg|jpeg|png|svg|webp|gif|ico)$/)
@@ -70,27 +49,22 @@ class BundleServerPlugin {
         .use("file-loader")
         .loader("file-loader")
         .options({
-          name: isPrd ? "[contenthash].[ext]" : "[name].[ext]",
-          outputPath: "static/_assets/images",
+          name: isProd ? "[contenthash].[ext]" : "[name].[ext]",
+          outputPath: imagesDir,
           publicPath: "/_assets/images",
         })
         .end()
         .use("image-webpack-loader")
         .loader("image-webpack-loader")
         .options({
-          disable: !isPrd,
+          disable: !isProd,
         });
 
-      webpackConfig.plugin("vue-loader").use(new VueLoaderPlugin());
-      webpackConfig.plugin("vue-server-bundle").use(new VueServerBundlePlugin({
-        entryName: "app.js",
-      }));
-      webpackConfig.plugin("mini-css-extract").use(new MiniCssExtractPlugin({
-        filename: path.join(
-          ASSETS_FOLDER,
-          isPrd ? "[name].[contenthash].css" : "[name].css",
-        ),
-      }));
+      webpackConfig.plugin("vue-server-bundle").use(
+        new VueServerBundlePlugin({
+          entryName: "server",
+        }),
+      );
 
       config.serverWebpackConfig = webpackConfig;
     });
@@ -99,7 +73,9 @@ class BundleServerPlugin {
       hooks["build"].tapPromise(pluginName, async ({ config }) => {
         const { webpackAsync } = require("./utils");
 
-        const serverResult = await webpackAsync(config.serverWebpackConfig.toConfig());
+        const serverResult = await webpackAsync(
+          config.serverWebpackConfig.toConfig(),
+        );
         console.log(serverResult.toString());
       });
   }

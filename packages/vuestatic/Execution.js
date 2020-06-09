@@ -11,7 +11,7 @@ class Execution {
   constructor(config = {}) {
     this.config = config;
     this.plugins = config.plugins || [];
-    this.steps = ["config", config.isDev ? "dev" : "build"];
+    this.steps = ["config", config.isWatch ? "dev" : "build"];
     this.hooks = {};
   }
 
@@ -35,12 +35,12 @@ class Execution {
   _applyPlugins() {
     const plugins = _.compact([
       new NormalizeConfigPlugin(),
-      new BundleServerPlugin(),
       new BundleClientPlugin(),
+      new BundleServerPlugin(),
       new StaticGenPlugin({
-        // crawl: true,
+        crawl: true,
       }),
-      this.config.isDev && new DevServerPlugin(),
+      this.config.isWatch && new DevServerPlugin(),
       ...this.plugins,
     ]);
 

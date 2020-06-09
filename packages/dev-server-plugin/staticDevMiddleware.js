@@ -22,7 +22,7 @@ const setupHooks = (context) => {
     context.ready = false;
   };
 
-  const done = async (type) => {
+  const done = async () => {
     try {
       const clientManifest = await getClientManifest(
         context.clientDevMiddleware,
@@ -31,6 +31,7 @@ const setupHooks = (context) => {
         path.resolve(process.cwd(), "src", "index.ssr.html"),
         "utf-8",
       );
+
       context.renderer = await createBundleRenderer(
         path.resolve(process.cwd(), ".vuestatic/server/vue-ssr-server-bundle.json"),
         {
@@ -39,6 +40,7 @@ const setupHooks = (context) => {
           runInNewContext: false,
         },
       );
+
       context.getProps = require(path.resolve(process.cwd(), ".vuestatic/server/static-props.js")).default;
       const { callbacks } = context;
       context.ready = true;
@@ -104,7 +106,7 @@ const devMiddleware = (serverCompiler, clientDevMiddleware) => {
               return next();
             }
 
-            console.log("err", err);
+            console.log("err", req.fullPath, err);
             res.status(500).send(err);
           });
       });

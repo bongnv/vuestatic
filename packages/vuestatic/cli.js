@@ -11,7 +11,7 @@ cli.command("build", "Build the static site").action((options) => {
 cli.command("dev", "Start development mode").action((options) => {
   const devOptions = {
     ...options,
-    isDev: true,
+    isWatch: true,
   };
   vueStatic(devOptions).run();
 });

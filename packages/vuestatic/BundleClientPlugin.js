@@ -4,21 +4,43 @@ class BundleClientPlugin {
 
     hooks["config"].tap(pluginName, ({ config }) => {
       const path = require("path");
+      const Config = require("webpack-chain");
+      const VueSSRClientPlugin = require("vue-server-renderer/client-plugin");
 
-      const clientWebpackConfig = require(path.resolve(
-        process.cwd(),
-        "build",
-        "webpack.client.conf",
-      ));
+      const { applyBaseConfig } = require("./webpackConfig");
+      const { isProd } = config;
 
-      config.clientWebpackConfig = clientWebpackConfig;
+      const webpackConfig = new Config();
+      applyBaseConfig(config, webpackConfig);
+      webpackConfig
+        .entry("client")
+        .add(path.join(config.baseDir, "src/entry-client.js"));
+
+      webpackConfig.output
+        .path(config.outputDir)
+        .publicPath("/")
+        .filename(isProd ? "[name].[contenthash].js" : "[name].js")
+        .chunkFilename(isProd ? "[name].[contenthash].js" : "[name].js");
+
+      webpackConfig.module
+        .rule("compile-js")
+        .test(/\.ts$/)
+        .exclude.add(/node_modules/)
+        .end()
+        .use("babel-loader")
+        .loader("babel-loader");
+
+      webpackConfig.plugin("vue-ssr-client").use(new VueSSRClientPlugin());
+      config.clientWebpackConfig = webpackConfig;
     });
 
     hooks["build"] &&
       hooks["build"].tapPromise(pluginName, async ({ config }) => {
         const { webpackAsync } = require("./utils");
 
-        const clientResult = await webpackAsync(config.clientWebpackConfig);
+        const clientResult = await webpackAsync(
+          config.clientWebpackConfig.toConfig(),
+        );
         console.log(clientResult.toString());
       });
   }
