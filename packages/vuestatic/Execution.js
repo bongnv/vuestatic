@@ -4,7 +4,8 @@ const _ = require("lodash");
 const BundleClientPlugin = require("./BundleClientPlugin");
 const BundleServerPlugin = require("./BundleServerPlugin");
 const DevServerPlugin = require("@bongnv/dev-server-plugin");
-const StaicGenPlugin = require("@bongnv/static-gen-plugin");
+const StaticGenPlugin = require("@bongnv/static-gen-plugin");
+const NormalizeConfigPlugin = require("./NormalizeConfigPlugin");
 
 class Execution {
   constructor(config = {}) {
@@ -33,9 +34,10 @@ class Execution {
 
   _applyPlugins() {
     const plugins = _.compact([
+      new NormalizeConfigPlugin(),
       new BundleServerPlugin(),
       new BundleClientPlugin(),
-      new StaicGenPlugin({
+      new StaticGenPlugin({
         // crawl: true,
       }),
       this.config.isDev && new DevServerPlugin(),

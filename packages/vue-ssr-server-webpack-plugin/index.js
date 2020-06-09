@@ -6,12 +6,13 @@ const isJS = (file) => /\.js(\?[^.]+)?$/.test(file);
 class VueSSRServerWebpackPlugin {
   constructor(options = {}) {
     this.filename = options.filename || "vue-ssr-server-bundle.json";
+    this.entryName = options.entryName || "";
   }
 
   async apply(compiler) {
     compiler.hooks.emit.tapPromise(pluginName, async (compilation) => {
       const stats = compilation.getStats().toJson();
-      const entryName = Object.keys(stats.entrypoints)[0];
+      const entryName = this.entryName || Object.keys(stats.entrypoints)[0];
       const entryInfo = stats.entrypoints[entryName];
       if (!entryInfo) {
         return;
@@ -43,12 +44,10 @@ class VueSSRServerWebpackPlugin {
       stats.assets.forEach(function (asset) {
         if (isJS(asset.name)) {
           bundle.files[asset.name] = compilation.assets[asset.name].source();
-          delete compilation.assets[asset.name];
         } else if (asset.name.match(/\.js\.map$/)) {
           bundle.maps[asset.name.replace(/\.map$/, "")] = JSON.parse(
             compilation.assets[asset.name].source(),
           );
-          delete compilation.assets[asset.name];
         }
       });
 

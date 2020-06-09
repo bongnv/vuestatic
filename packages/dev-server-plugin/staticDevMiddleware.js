@@ -14,23 +14,16 @@ const getClientManifest = (middleware) => {
 };
 
 const setupHooks = (context) => {
-  const invalid = (type) => {
-    if (context[type + "Ready"]) {
+  const invalid = () => {
+    if (context.ready) {
       console.log("Compiling...");
     }
 
-    context[type + "Ready"] = false;
+    context.ready = false;
   };
 
   const done = async (type) => {
     try {
-      context[type + "Ready"] = true;
-      console.log(`${type} is ready.`);
-      if (!context.serverReady || !context.staticReady) {
-        return;
-      }
-
-      const { callbacks } = context;
       const clientManifest = await getClientManifest(
         context.clientDevMiddleware,
       );
@@ -46,7 +39,8 @@ const setupHooks = (context) => {
           runInNewContext: false,
         },
       );
-      context.getProps = require(path.resolve(process.cwd(), ".vuestatic/static-props/index.js")).default;
+      context.getProps = require(path.resolve(process.cwd(), ".vuestatic/server/static-props.js")).default;
+      const { callbacks } = context;
       context.ready = true;
       context.callbacks = [];
       callbacks.forEach((callback) => {
@@ -57,12 +51,9 @@ const setupHooks = (context) => {
     }
   };
 
-  context.serverCompiler.hooks.watchRun.tap("DevMiddleware", () => invalid("server"));
-  context.serverCompiler.hooks.invalid.tap("DevMiddleware", () => invalid("server"));
-  context.serverCompiler.hooks.done.tapPromise("DevMiddleware", () => done("server"));
-  context.staticCompiler.hooks.watchRun.tap("DevMiddleware", () => invalid("static"));
-  context.staticCompiler.hooks.invalid.tap("DevMiddleware", () => invalid("static"));
-  context.staticCompiler.hooks.done.tapPromise("DevMiddleware", () => done("static"));
+  context.serverCompiler.hooks.watchRun.tap("DevMiddleware", invalid);
+  context.serverCompiler.hooks.invalid.tap("DevMiddleware", invalid);
+  context.serverCompiler.hooks.done.tapPromise("DevMiddleware", done);
 };
 
 const getPageHTML = async (renderer, getProps, url) => {
@@ -73,12 +64,10 @@ const getPageHTML = async (renderer, getProps, url) => {
   })
 };
 
-const devMiddleware = (serverCompiler, staticCompiler, clientDevMiddleware) => {
+const devMiddleware = (serverCompiler, clientDevMiddleware) => {
   const context = {
-    serverReady: false,
-    staticReady: false,
+    ready: false,
     serverCompiler,
-    staticCompiler,
     callbacks: [],
     renderer: null,
     clientDevMiddleware,
@@ -89,6 +78,7 @@ const devMiddleware = (serverCompiler, staticCompiler, clientDevMiddleware) => {
     if (context.ready) {
       callback();
     } else {
+      console.log("wait until bundle finished");
       context.callbacks.push(callback);
     }
   };
@@ -101,14 +91,6 @@ const devMiddleware = (serverCompiler, staticCompiler, clientDevMiddleware) => {
 
     console.log(stats.toString());
   });
-
-  staticCompiler.watch(staticCompiler.options.watchOptions, (err, stats) => {
-    if (err) {
-      return console.error(err);
-    }
-
-    console.log(stats.toString());
-  })
 
   return (req, res, next) => {
     if (!req.path.endsWith("pageData.json")) {
@@ -129,14 +111,18 @@ const devMiddleware = (serverCompiler, staticCompiler, clientDevMiddleware) => {
     }
 
     return waitForBuild(() => {
-      context.getProps(req.path.replace(/pageData\.json/i, ""))
-        .then((pageData) => {
-          res.json(pageData);
-        })
-        .catch((err) => {
-          console.log("err", err);
-          res.status(err.code || 500).send(err);
-        });
+      try {
+        context.getProps(req.path.replace(/pageData\.json/i, ""))
+          .then((pageData) => {
+            res.json(pageData);
+          })
+          .catch((err) => {
+            console.log("err", err);
+            res.status(err.code || 500).send(err);
+          });
+      } catch (err) {
+        console.log(err);
+      }
     });
   };
 };

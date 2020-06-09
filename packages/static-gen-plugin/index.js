@@ -44,13 +44,6 @@ const relativePathsFromHtml = ({ html, currentPath }) => {
 
 class BundleStaticPlugin {
   constructor(options = {}) {
-    this.serverBundlePath = path.resolve(
-      process.cwd(),
-      ".vuestatic",
-      "server",
-      "vue-ssr-server-bundle.json",
-    );
-
     this.templatePath =
       options.templatePath || path.resolve(__dirname, "index.html");
 
@@ -58,13 +51,6 @@ class BundleStaticPlugin {
       process.cwd(),
       "dist",
       "vue-ssr-client-manifest.json"
-    );
-
-    this.staticPropsFile = path.resolve(
-      process.cwd(),
-      ".vuestatic",
-      "static-props",
-      "index.js",
     );
 
     this.paths = options.paths || ["/"];
@@ -135,87 +121,13 @@ class BundleStaticPlugin {
   apply({ hooks }) {
     const pluginName = "BundleStaticPlugin";
 
-    hooks["config"].tap(pluginName, ({ config }) => {
-      const path = require("path");
-      const Config = require('webpack-chain');
-      const { VueLoaderPlugin } = require("vue-loader");
-
-      const baseDir = path.resolve(process.cwd());
-      const isPrd = process.env.NODE_ENV === "production";
-
-      const webpackConfig = new Config();
-      webpackConfig
-        .mode(isPrd ? "production" : "development")
-        .target("node")
-        .entry('static-props')
-        .add('./src/static-props.js');
-
-      webpackConfig.output
-        .libraryTarget("commonjs2")
-        .path(path.join(baseDir, ".vuestatic/static-props"))
-        .filename("index.js");
-
-      webpackConfig.module
-        .rule("compile-vue")
-        .test(/\.vue$/)
-        .use("vue-loader")
-        .loader("vue-loader");
-
-      webpackConfig.module
-        .rule("compile-css")
-        .test(/\.css$/)
-        .use("vue-style-loader")
-        .loader("vue-style-loader")
-        .end()
-        .use("css-loader")
-        .loader("css-loader")
-        .end()
-        .use("postcss-loader")
-        .loader("postcss-loader")
-        .end();
-
-      webpackConfig.module
-        .rule("compile-md")
-        .test(/\.md$/)
-        .use("markdown-loader")
-        .loader("@bongnv/markdown-loader")
-        .options({
-          plugins: [require("@bongnv/markdown-images-plugin")],
-        });
-
-      webpackConfig.module
-        .rule("compile-images")
-        .test(/\.(jpg|jpeg|png|svg|webp|gif|ico)$/)
-        .use("image-trace-loader")
-        .loader("image-trace-loader")
-        .end()
-        .use("file-loader")
-        .loader("file-loader")
-        .options({
-          name: isPrd ? "[contenthash].[ext]" : "[name].[ext]",
-          outputPath: (url, resourcePath, context) => {
-            return path.relative(path.join(context, ".vuestatic/static-props"), path.resolve(this.outputPath, "_assets/images", url));
-          },
-          publicPath: "/_assets/images",
-        })
-        .end()
-        .use("image-webpack-loader")
-        .loader("image-webpack-loader")
-        .options({
-          disable: !isPrd,
-        });
-
-      webpackConfig.plugin("vue-loader").use(new VueLoaderPlugin());
-      config.staticWebpackConfig = webpackConfig;
-    });
+    hooks["post-config"].tap(pluginName, ({config}) => {
+      this.serverBundlePath = path.join(config.serverPath, "vue-ssr-server-bundle.json");
+      this.staticPropsFile = path.join(config.serverPath, "static-props.js");
+    })
 
     hooks["build"] &&
       hooks["build"].tapPromise(pluginName, async ({ config }) => {
-        const { webpackAsync } = require("../vuestatic/utils");
-
-        const clientResult = await webpackAsync(config.staticWebpackConfig.toString());
-        console.log(clientResult.toString());
-
         const renderer = await this.createRenderer();
         for (let url of this.paths) {
           await this.renderPage(renderer, url);

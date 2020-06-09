@@ -6,17 +6,6 @@ class DevServerPlugin {
     }
     const pluginName = "DevServerPlugin";
 
-    hooks["config"].tap(pluginName, ({ config }) => {
-      const { staticWebpackConfig } = config;
-      staticWebpackConfig.module
-        .rule("compile-images")
-        .use("file-loader")
-        .tap(options => ({
-          ...options,
-          outputPath: "static/_assets/images",
-        }));
-    })
-
     hooks["dev"] &&
       hooks["dev"].tapAsync(pluginName, (execution, callback) => {
         const path = require("path");
@@ -25,16 +14,15 @@ class DevServerPlugin {
         const webpackDevServer = require("webpack-dev-server");
 
         const { serverWebpackConfig, clientWebpackConfig, staticWebpackConfig } = execution.config;
-        const serverCompiler = webpack(serverWebpackConfig);
+        const serverCompiler = webpack(serverWebpackConfig.toConfig());
         const clientCompiler = webpack(clientWebpackConfig);
-        const staticCompiler = webpack(staticWebpackConfig.toConfig());
 
         const devServerConfig = {
           ...clientWebpackConfig.devServer,
-          contentBase: path.resolve(process.cwd(), ".vuestatic/static-props/static"),
+          contentBase: path.join(execution.config.serverPath, "static"),
           serveIndex: false,
           after: (app, server) => {
-            app.use(devMiddleware(serverCompiler, staticCompiler, server.middleware));
+            app.use(devMiddleware(serverCompiler, server.middleware));
           },
         };
 
