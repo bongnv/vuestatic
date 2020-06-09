@@ -4,7 +4,7 @@ const _ = require("lodash");
 const BundleClientPlugin = require("./BundleClientPlugin");
 const BundleServerPlugin = require("./BundleServerPlugin");
 const DevServerPlugin = require("./DevServerPlugin");
-const BundleStaticPlugin = require("./BundleStaticPlugin");
+const StaicGenPlugin = require("@bongnv/static-gen-plugin");
 
 class Execution {
   constructor(config = {}) {
@@ -35,7 +35,9 @@ class Execution {
     const plugins = _.compact([
       new BundleServerPlugin(),
       new BundleClientPlugin(),
-      new BundleStaticPlugin(),
+      new StaicGenPlugin({
+        // crawl: true,
+      }),
       this.config.isDev && new DevServerPlugin(),
       ...this.plugins,
     ]);

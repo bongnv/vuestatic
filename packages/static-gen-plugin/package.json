@@ -1,0 +1,25 @@
+{
+  "name": "@bongnv/static-gen-plugin",
+  "version": "0.0.0",
+  "description": "A plugin for vuestatic to generate static sites",
+  "main": "index.js",
+  "author": "Bong Nguyen",
+  "license": "MIT",
+  "dependencies": {
+    "@bongnv/markdown-images-plugin": "^0.2.3",
+    "@bongnv/markdown-loader": "^0.2.4",
+    "cheerio": "^1.0.0-rc.3",
+    "css-loader": "^3.5.3",
+    "file-loader": "^6.0.0",
+    "fs-extra": "^9.0.1",
+    "html-minifier": "^4.0.0",
+    "image-trace-loader": "^1.0.2",
+    "image-webpack-loader": "^6.0.0",
+    "vue-loader": "^15.9.2",
+    "vue-server-renderer": "^2.6.11",
+    "vue-style-loader": "^4.1.2",
+    "vue-template-compiler": "^2.6.11",
+    "vue-template-loader": "^1.1.0",
+    "webpack-chain": "^6.4.0"
+  }
+}

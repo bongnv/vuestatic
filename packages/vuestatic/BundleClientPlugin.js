@@ -4,8 +4,6 @@ class BundleClientPlugin {
 
     hooks["config"].tap(pluginName, ({ config }) => {
       const path = require("path");
-      const VueStaticWebpackPlugin = require("@bongnv/vue-static-webpack-plugin");
-
       const isProd = process.env.NODE_ENV === "production";
 
       const clientWebpackConfig = require(path.resolve(
@@ -13,20 +11,6 @@ class BundleClientPlugin {
         "build",
         "webpack.client.conf",
       ));
-      clientWebpackConfig.plugins.push(
-        new VueStaticWebpackPlugin({
-          paths: ["/"],
-          crawl: true,
-          htmlMinifier: isProd
-            ? {
-                collapseWhitespace: true,
-                removeAttributeQuotes: true,
-                removeComments: true,
-                minifyJS: true,
-              }
-            : false,
-        }),
-      );
 
       config.clientWebpackConfig = clientWebpackConfig;
     });
