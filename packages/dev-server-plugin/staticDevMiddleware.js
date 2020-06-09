@@ -14,16 +14,22 @@ const getClientManifest = (middleware) => {
 };
 
 const setupHooks = (context) => {
-  const invalid = () => {
-    if (context.ready) {
+  const invalid = (type) => {
+    if (context[type + "Ready"]) {
       console.log("Compiling...");
     }
 
-    context.ready = false;
+    context[type + "Ready"] = false;
   };
 
-  const done = async () => {
+  const done = async (type) => {
     try {
+      context[type + "Ready"] = true;
+      console.log(`${type} is ready.`);
+      if (!context.serverReady || !context.staticReady) {
+        return;
+      }
+
       const { callbacks } = context;
       const clientManifest = await getClientManifest(
         context.clientDevMiddleware,
@@ -51,9 +57,12 @@ const setupHooks = (context) => {
     }
   };
 
-  context.compiler.hooks.watchRun.tap("DevMiddleware", invalid);
-  context.compiler.hooks.invalid.tap("DevMiddleware", invalid);
-  context.compiler.hooks.done.tapPromise("DevMiddleware", done);
+  context.serverCompiler.hooks.watchRun.tap("DevMiddleware", () => invalid("server"));
+  context.serverCompiler.hooks.invalid.tap("DevMiddleware", () => invalid("server"));
+  context.serverCompiler.hooks.done.tapPromise("DevMiddleware", () => done("server"));
+  context.staticCompiler.hooks.watchRun.tap("DevMiddleware", () => invalid("static"));
+  context.staticCompiler.hooks.invalid.tap("DevMiddleware", () => invalid("static"));
+  context.staticCompiler.hooks.done.tapPromise("DevMiddleware", () => done("static"));
 };
 
 const getPageHTML = async (renderer, getProps, url) => {
@@ -64,11 +73,12 @@ const getPageHTML = async (renderer, getProps, url) => {
   })
 };
 
-const devMiddleware = (compiler, clientDevMiddleware) => {
+const devMiddleware = (serverCompiler, staticCompiler, clientDevMiddleware) => {
   const context = {
-    ready: false,
-    compiler: compiler,
-    watchOptions: compiler.options.watchOptions || {},
+    serverReady: false,
+    staticReady: false,
+    serverCompiler,
+    staticCompiler,
     callbacks: [],
     renderer: null,
     clientDevMiddleware,
@@ -83,7 +93,7 @@ const devMiddleware = (compiler, clientDevMiddleware) => {
     }
   };
 
-  compiler.watch(context.watchOptions, (err, stats) => {
+  serverCompiler.watch(serverCompiler.options.watchOptions, (err, stats) => {
     if (err) {
       console.error(err);
       return;
@@ -91,6 +101,14 @@ const devMiddleware = (compiler, clientDevMiddleware) => {
 
     console.log(stats.toString());
   });
+
+  staticCompiler.watch(staticCompiler.options.watchOptions, (err, stats) => {
+    if (err) {
+      return console.error(err);
+    }
+
+    console.log(stats.toString());
+  })
 
   return (req, res, next) => {
     if (!req.path.endsWith("pageData.json")) {
@@ -117,7 +135,7 @@ const devMiddleware = (compiler, clientDevMiddleware) => {
         })
         .catch((err) => {
           console.log("err", err);
-          res.status(500).send(err);
+          res.status(err.code || 500).send(err);
         });
     });
   };

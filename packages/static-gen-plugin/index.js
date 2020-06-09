@@ -194,7 +194,6 @@ class BundleStaticPlugin {
         .options({
           name: isPrd ? "[contenthash].[ext]" : "[name].[ext]",
           outputPath: (url, resourcePath, context) => {
-            console.log(url, resourcePath, context);
             return path.relative(path.join(context, ".vuestatic/static-props"), path.resolve(this.outputPath, "_assets/images", url));
           },
           publicPath: "/_assets/images",
@@ -207,14 +206,14 @@ class BundleStaticPlugin {
         });
 
       webpackConfig.plugin("vue-loader").use(new VueLoaderPlugin());
-      config.staticWebpackConfig = webpackConfig.toConfig();
+      config.staticWebpackConfig = webpackConfig;
     });
 
     hooks["build"] &&
       hooks["build"].tapPromise(pluginName, async ({ config }) => {
         const { webpackAsync } = require("../vuestatic/utils");
 
-        const clientResult = await webpackAsync(config.staticWebpackConfig);
+        const clientResult = await webpackAsync(config.staticWebpackConfig.toString());
         console.log(clientResult.toString());
 
         const renderer = await this.createRenderer();
