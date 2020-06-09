@@ -29,17 +29,18 @@ const setupHooks = (context) => {
         context.clientDevMiddleware,
       );
       const template = await fs.readFile(
-        path.resolve(__dirname, "index.ssr.html"),
+        path.resolve(process.cwd(), "src", "index.ssr.html"),
         "utf-8",
       );
       context.renderer = await createBundleRenderer(
-        path.resolve(process.cwd(), ".server/vue-ssr-server-bundle.json"),
+        path.resolve(process.cwd(), ".vuestatic/server/vue-ssr-server-bundle.json"),
         {
           clientManifest,
           template,
           runInNewContext: false,
         },
       );
+      context.getProps = require(path.resolve(process.cwd(), ".vuestatic/static-props/index.js")).default;
       context.ready = true;
       context.callbacks = [];
       callbacks.forEach((callback) => {
@@ -55,19 +56,13 @@ const setupHooks = (context) => {
   context.compiler.hooks.done.tapPromise("DevMiddleware", done);
 };
 
-const getPageData = async (renderer, url) => {
-  const context = {
+const getPageHTML = async (renderer, getProps, url) => {
+  const pageData = await getProps(url);
+  return renderer.renderToString({
     url,
-  };
-
-  await renderer.renderToString(context);
-  return context.pageData;
+    pageData,
+  })
 };
-
-const getPageHTML = (renderer, url) =>
-  renderer.renderToString({
-    url,
-  });
 
 const devMiddleware = (compiler, clientDevMiddleware) => {
   const context = {
@@ -100,7 +95,7 @@ const devMiddleware = (compiler, clientDevMiddleware) => {
   return (req, res, next) => {
     if (!req.path.endsWith("pageData.json")) {
       return waitForBuild(() => {
-        getPageHTML(context.renderer, req.path)
+        getPageHTML(context.renderer, context.getProps, req.path)
           .then((html) => {
             res.send(html);
           })
@@ -116,7 +111,7 @@ const devMiddleware = (compiler, clientDevMiddleware) => {
     }
 
     return waitForBuild(() => {
-      getPageData(context.renderer, req.path.replace(/pageData\.json/i, ""))
+      context.getProps(req.path.replace(/pageData\.json/i, ""))
         .then((pageData) => {
           res.json(pageData);
         })
