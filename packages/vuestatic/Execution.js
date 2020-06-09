@@ -3,7 +3,7 @@ const _ = require("lodash");
 
 const BundleClientPlugin = require("./BundleClientPlugin");
 const BundleServerPlugin = require("./BundleServerPlugin");
-const DevServerPlugin = require("./DevServerPlugin");
+const DevServerPlugin = require("@bongnv/dev-server-plugin");
 const StaicGenPlugin = require("@bongnv/static-gen-plugin");
 
 class Execution {

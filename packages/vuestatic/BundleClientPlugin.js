@@ -4,7 +4,6 @@ class BundleClientPlugin {
 
     hooks["config"].tap(pluginName, ({ config }) => {
       const path = require("path");
-      const isProd = process.env.NODE_ENV === "production";
 
       const clientWebpackConfig = require(path.resolve(
         process.cwd(),

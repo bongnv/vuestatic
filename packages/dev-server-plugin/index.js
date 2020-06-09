@@ -7,10 +7,11 @@ class DevServerPlugin {
         const webpack = require("webpack");
         const devMiddleware = require("./staticDevMiddleware");
         const webpackDevServer = require("webpack-dev-server");
-        const { serverWebpackConfig, clientWebpackConfig } = execution.config;
+        const { serverWebpackConfig, clientWebpackConfig, staticWebpackConfig } = execution.config;
 
         const serverCompiler = webpack(serverWebpackConfig);
         const clientCompiler = webpack(clientWebpackConfig);
+        const staticCompiler = webpack(staticWebpackConfig);
 
         const devServerConfig = {
           ...clientWebpackConfig.devServer,
@@ -19,6 +20,14 @@ class DevServerPlugin {
             app.use(devMiddleware(serverCompiler, server.middleware));
           },
         };
+
+        staticCompiler.watch(staticWebpackConfig.watchOptions, (err, stats) => {
+          if (err) {
+            return console.error(err);
+          }
+
+          console.log(stats.toString());
+        })
 
         execution.devServer = new webpackDevServer(
           clientCompiler,

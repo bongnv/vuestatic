@@ -1,0 +1,13 @@
+{
+  "name": "@bongnv/dev-server-plugin",
+  "version": "0.0.0",
+  "description": "A vuestatic plugin for development",
+  "main": "index.js",
+  "author": "Bong Nguyen",
+  "license": "MIT",
+  "dependencies": {
+    "vue-server-renderer": "^2.6.11",
+    "webpack": "^4.43.0",
+    "webpack-dev-server": "^3.11.0"
+  }
+}
