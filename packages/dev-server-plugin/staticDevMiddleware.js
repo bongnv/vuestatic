@@ -101,7 +101,7 @@ const devMiddleware = (serverCompiler, clientDevMiddleware) => {
   });
 
   return (req, res, next) => {
-    if (!req.path.endsWith("pageData.json")) {
+    if (!req.path.endsWith("pageProps.json")) {
       return waitForBuild(() => {
         getPageHTML(context.renderer, context.getProps, req.path)
           .then((html) => {

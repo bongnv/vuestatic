@@ -106,7 +106,7 @@ class BundleStaticPlugin {
       const propsFile = path.resolve(
         this.outputPath,
         url.slice(1),
-        "pageData.json",
+        "pageProps.json",
       );
       console.log("Writing", propsFile);
       await fs.ensureFile(propsFile);
