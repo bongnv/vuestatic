@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.2.1](https://github.com/bongnv/vuestatic/compare/@bongnv/markdown-vuestatic-plugin@0.2.0...@bongnv/markdown-vuestatic-plugin@0.2.1) (2020-06-10)
+
+
+### Bug Fixes
+
+* css bundling ([f377511](https://github.com/bongnv/vuestatic/commit/f37751106629ee7cefd0358a84075716913f6141))
+
+
+
+
+
 # [0.2.0](https://github.com/bongnv/vuestatic/compare/@bongnv/markdown-vuestatic-plugin@0.1.0...@bongnv/markdown-vuestatic-plugin@0.2.0) (2020-06-10)
 
 

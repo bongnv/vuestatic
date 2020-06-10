@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.4.0](https://github.com/bongnv/vuestatic/compare/@bongnv/vuestatic@0.3.0...@bongnv/vuestatic@0.4.0) (2020-06-10)
+
+
+### Bug Fixes
+
+* css bundling ([f377511](https://github.com/bongnv/vuestatic/commit/f37751106629ee7cefd0358a84075716913f6141))
+
+
+### Features
+
+* add @bongnv/google-analytics-plugin ([7610d5f](https://github.com/bongnv/vuestatic/commit/7610d5fe0815aee067438c619a6ed4d3c9f87017))
+
+
+
+
+
 # [0.3.0](https://github.com/bongnv/vuestatic/compare/@bongnv/vuestatic@0.2.0...@bongnv/vuestatic@0.3.0) (2020-06-10)
 
 
