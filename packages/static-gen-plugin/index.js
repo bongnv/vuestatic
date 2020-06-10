@@ -47,11 +47,9 @@ class BundleStaticPlugin {
     this.templatePath =
       options.templatePath || path.resolve(__dirname, "index.html");
 
-    this.clientManifestPath = options.clientManifestPath || path.resolve(
-      process.cwd(),
-      "dist",
-      "vue-ssr-client-manifest.json"
-    );
+    this.clientManifestPath =
+      options.clientManifestPath ||
+      path.resolve(process.cwd(), "dist", "vue-ssr-client-manifest.json");
 
     this.paths = options.paths || ["/"];
     this.crawl = options.crawl || false;
@@ -64,7 +62,9 @@ class BundleStaticPlugin {
     const genStaticProps = require(this.staticPropsFile).default;
 
     const template = await fs.readFile(this.templatePath, "utf-8");
-    const clientManifest = JSON.parse(await fs.readFile(this.clientManifestPath));
+    const clientManifest = JSON.parse(
+      await fs.readFile(this.clientManifestPath),
+    );
     const renderer = await createBundleRenderer(this.serverBundlePath, {
       template,
       clientManifest,
@@ -76,8 +76,11 @@ class BundleStaticPlugin {
       const context = {
         url,
         pageData,
-      }
-      const html = minify(await renderer.renderToString(context), this.htmlMinifierOptions);
+      };
+      const html = minify(
+        await renderer.renderToString(context),
+        this.htmlMinifierOptions,
+      );
       return { html, pageData };
     };
 
@@ -100,7 +103,11 @@ class BundleStaticPlugin {
     await fs.writeFile(htmlFile, html);
     if (pageData) {
       const staticProps = JSON.stringify(pageData);
-      const propsFile = path.resolve(this.outputPath, url.slice(1), "pageData.json");
+      const propsFile = path.resolve(
+        this.outputPath,
+        url.slice(1),
+        "pageData.json",
+      );
       console.log("Writing", propsFile);
       await fs.ensureFile(propsFile);
       await fs.writeFile(propsFile, staticProps);
@@ -121,13 +128,16 @@ class BundleStaticPlugin {
   apply({ hooks }) {
     const pluginName = "BundleStaticPlugin";
 
-    hooks["post-config"].tap(pluginName, ({config}) => {
-      this.serverBundlePath = path.join(config.serverPath, "vue-ssr-server-bundle.json");
+    hooks["post-config"].tap(pluginName, ({ config }) => {
+      this.serverBundlePath = path.join(
+        config.serverPath,
+        "vue-ssr-server-bundle.json",
+      );
       this.staticPropsFile = path.join(config.serverPath, "static-props.js");
-    })
+    });
 
     hooks["build"] &&
-      hooks["build"].tapPromise(pluginName, async ({ config }) => {
+      hooks["build"].tapPromise(pluginName, async () => {
         const renderer = await this.createRenderer();
         for (let url of this.paths) {
           await this.renderPage(renderer, url);

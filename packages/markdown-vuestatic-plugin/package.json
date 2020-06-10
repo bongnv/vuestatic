@@ -1,0 +1,22 @@
+{
+  "name": "@bongnv/markdown-vuestatic-plugin",
+  "version": "0.0.0",
+  "description": "A Markdown plugin for vuestatic",
+  "main": "index.js",
+  "author": "Bong Nguyen",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "lint": "eslint --fix --ext=js,jsx,vue --cache .",
+    "format": "prettier --write \"**/*.{js,jsx,vue,json,md,css}\""
+  },
+  "dependencies": {
+    "@bongnv/markdown-images-plugin": "^0.2.3",
+    "@bongnv/markdown-loader": "^0.2.4",
+    "file-loader": "^6.0.0",
+    "image-trace-loader": "^1.0.2",
+    "image-webpack-loader": "^6.0.0"
+  }
+}

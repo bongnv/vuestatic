@@ -5,6 +5,10 @@
   "main": "index.js",
   "author": "Bong Nguyen",
   "license": "MIT",
+  "scripts": {
+    "lint": "eslint --fix --ext=js,jsx,vue --cache .",
+    "format": "prettier --write \"**/*.{js,jsx,vue,json,md,css}\""
+  },
   "dependencies": {
     "vue-server-renderer": "^2.6.11",
     "webpack": "^4.43.0",

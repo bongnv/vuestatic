@@ -33,7 +33,10 @@ const setupHooks = (context) => {
       );
 
       context.renderer = await createBundleRenderer(
-        path.resolve(process.cwd(), ".vuestatic/server/vue-ssr-server-bundle.json"),
+        path.resolve(
+          process.cwd(),
+          ".vuestatic/server/vue-ssr-server-bundle.json",
+        ),
         {
           clientManifest,
           template,
@@ -41,7 +44,10 @@ const setupHooks = (context) => {
         },
       );
 
-      context.getProps = require(path.resolve(process.cwd(), ".vuestatic/server/static-props.js")).default;
+      context.getProps = require(path.resolve(
+        process.cwd(),
+        ".vuestatic/server/static-props.js",
+      )).default;
       const { callbacks } = context;
       context.ready = true;
       context.callbacks = [];
@@ -63,7 +69,7 @@ const getPageHTML = async (renderer, getProps, url) => {
   return renderer.renderToString({
     url,
     pageData,
-  })
+  });
 };
 
 const devMiddleware = (serverCompiler, clientDevMiddleware) => {
@@ -114,7 +120,8 @@ const devMiddleware = (serverCompiler, clientDevMiddleware) => {
 
     return waitForBuild(() => {
       try {
-        context.getProps(req.path.replace(/pageData\.json/i, ""))
+        context
+          .getProps(req.path.replace(/pageData\.json/i, ""))
           .then((pageData) => {
             res.json(pageData);
           })

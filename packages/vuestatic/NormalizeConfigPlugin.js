@@ -6,6 +6,7 @@ class NormalizeConfigPlugin {
     config.serverPath =
       config.serverPath || path.resolve(config.baseDir, ".vuestatic", "server");
     config.isProd = config.isProd || process.env.NODE_ENV === "production";
+    config.srcDir = path.join(config.baseDir, "src");
     config.outputDir = path.join(config.baseDir, "dist");
   }
 }

@@ -6,6 +6,7 @@ const BundleServerPlugin = require("./BundleServerPlugin");
 const DevServerPlugin = require("@bongnv/dev-server-plugin");
 const StaticGenPlugin = require("@bongnv/static-gen-plugin");
 const NormalizeConfigPlugin = require("./NormalizeConfigPlugin");
+const MarkdownVueStaticPlugin = require("@bongnv/markdown-vuestatic-plugin");
 
 class Execution {
   constructor(config = {}) {
@@ -37,6 +38,7 @@ class Execution {
       new NormalizeConfigPlugin(),
       new BundleClientPlugin(),
       new BundleServerPlugin(),
+      new MarkdownVueStaticPlugin(),
       new StaticGenPlugin({
         crawl: true,
       }),

@@ -14,8 +14,7 @@
   },
   "dependencies": {
     "@bongnv/dev-server-plugin": "^0.1.1",
-    "@bongnv/markdown-images-plugin": "^0.2.3",
-    "@bongnv/markdown-loader": "^0.2.4",
+    "@bongnv/markdown-vuestatic-plugin": "^0.0.0",
     "@bongnv/static-gen-plugin": "^0.1.1",
     "@bongnv/vue-ssr-server-webpack-plugin": "^0.1.1",
     "cac": "^6.5.10",

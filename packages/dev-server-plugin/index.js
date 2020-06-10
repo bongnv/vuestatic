@@ -13,7 +13,7 @@ class DevServerPlugin {
         const devMiddleware = require("./staticDevMiddleware");
         const webpackDevServer = require("webpack-dev-server");
 
-        const { serverWebpackConfig, clientWebpackConfig, staticWebpackConfig } = execution.config;
+        const { serverWebpackConfig, clientWebpackConfig } = execution.config;
         const serverCompiler = webpack(serverWebpackConfig.toConfig());
         const clientCompiler = webpack(clientWebpackConfig.toConfig());
 
