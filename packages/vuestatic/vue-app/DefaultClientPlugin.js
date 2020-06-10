@@ -44,4 +44,4 @@ export default function ({ Vue, router }) {
       })
       .catch(next);
   });
-};
+}

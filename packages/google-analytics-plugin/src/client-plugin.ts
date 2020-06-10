@@ -12,4 +12,4 @@ export default function ({ Vue, router }: Props) {
     id: __GOOGLE_ANALYTICS_ID__,
     router,
   });
-};
+}

@@ -14,6 +14,7 @@ const getClientManifest = (middleware) => {
 };
 
 const setupHooks = (context) => {
+  const templateFile = path.join(context.config.defaultVueApp, "index.html");
   const invalid = () => {
     if (context.ready) {
       console.log("Compiling...");
@@ -27,10 +28,8 @@ const setupHooks = (context) => {
       const clientManifest = await getClientManifest(
         context.clientDevMiddleware,
       );
-      const template = await fs.readFile(
-        path.resolve(process.cwd(), "src", "index.ssr.html"),
-        "utf-8",
-      );
+
+      const template = await fs.readFile(templateFile, "utf-8");
 
       context.renderer = await createBundleRenderer(
         path.resolve(
@@ -72,13 +71,14 @@ const getPageHTML = async (renderer, getProps, url) => {
   });
 };
 
-const devMiddleware = (serverCompiler, clientDevMiddleware) => {
+const devMiddleware = (config, serverCompiler, clientDevMiddleware) => {
   const context = {
     ready: false,
     serverCompiler,
     callbacks: [],
     renderer: null,
     clientDevMiddleware,
+    config,
   };
 
   setupHooks(context);

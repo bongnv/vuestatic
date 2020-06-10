@@ -44,9 +44,6 @@ const relativePathsFromHtml = ({ html, currentPath }) => {
 
 class BundleStaticPlugin {
   constructor(options = {}) {
-    this.templatePath =
-      options.templatePath || path.resolve(__dirname, "index.html");
-
     this.clientManifestPath =
       options.clientManifestPath ||
       path.resolve(process.cwd(), "dist", "vue-ssr-client-manifest.json");
@@ -57,11 +54,14 @@ class BundleStaticPlugin {
     this.htmlMinifierOptions = options.htmlMinifier || {};
   }
 
-  async createRenderer() {
+  async createRenderer({ defaultVueApp }) {
     const { createBundleRenderer } = require("vue-server-renderer");
     const genStaticProps = require(this.staticPropsFile).default;
 
-    const template = await fs.readFile(this.templatePath, "utf-8");
+    const template = await fs.readFile(
+      path.join(defaultVueApp, "index.html"),
+      "utf-8",
+    );
     const clientManifest = JSON.parse(
       await fs.readFile(this.clientManifestPath),
     );
@@ -137,8 +137,8 @@ class BundleStaticPlugin {
     });
 
     hooks["build"] &&
-      hooks["build"].tapPromise(pluginName, async () => {
-        const renderer = await this.createRenderer();
+      hooks["build"].tapPromise(pluginName, async ({ config }) => {
+        const renderer = await this.createRenderer(config);
         for (let url of this.paths) {
           await this.renderPage(renderer, url);
         }

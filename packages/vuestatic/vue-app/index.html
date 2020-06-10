@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html {{ meta.inject().htmlAttrs.text(true) }}>
 
 <head>
   <meta charset="utf-8">
@@ -12,11 +12,7 @@
 </head>
 
 <body>
-  <script type="text/javascript">
-  const LIGHTS_OUT = "lights-out";
-  const darkMode = window.localStorage.getItem(LIGHTS_OUT) === "true";
-  document.documentElement.toggleAttribute(LIGHTS_OUT, darkMode);
-  </script>
+  {{{ meta.inject().script.text({ pbody: true}) }}}
   <!--vue-ssr-outlet-->
 </body>
 

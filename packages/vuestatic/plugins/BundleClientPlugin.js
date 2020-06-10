@@ -43,7 +43,9 @@ class BundleClientPlugin {
       webpackConfig.plugin("vue-ssr-client").use(new VueSSRClientPlugin());
       config.clientWebpackConfig = webpackConfig;
 
-      config.clientPlugins.push(path.join(config.defaultVueApp, "DefaultClientPlugin.js"));
+      config.clientPlugins.push(
+        path.join(config.defaultVueApp, "DefaultClientPlugin.js"),
+      );
     });
 
     hooks["build"] &&

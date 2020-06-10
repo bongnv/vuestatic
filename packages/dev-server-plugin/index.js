@@ -22,7 +22,13 @@ class DevServerPlugin {
           contentBase: path.join(execution.config.serverPath, "static"),
           serveIndex: false,
           after: (app, server) => {
-            app.use(devMiddleware(serverCompiler, server.middleware));
+            app.use(
+              devMiddleware(
+                execution.config,
+                serverCompiler,
+                server.middleware,
+              ),
+            );
           },
         };
 
