@@ -11,7 +11,7 @@ class BundleClientPlugin {
 
       const webpackConfig = new Config();
       applyBaseConfig(config, webpackConfig);
-      webpackConfig.entry("client").add("entry-client.js");
+      webpackConfig.entry("app").add("entry-client.js");
 
       webpackConfig.output
         .path(config.outputDir)

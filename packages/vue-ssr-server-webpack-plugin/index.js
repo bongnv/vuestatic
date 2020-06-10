@@ -40,7 +40,7 @@ class VueSSRServerWebpackPlugin {
         maps: {},
       };
 
-      stats.assets.forEach(function(asset) {
+      stats.assets.forEach(function (asset) {
         if (isJS(asset.name)) {
           bundle.files[asset.name] = compilation.assets[asset.name].source();
         } else if (asset.name.match(/\.js\.map$/)) {
@@ -52,9 +52,7 @@ class VueSSRServerWebpackPlugin {
 
       if (!bundle.files[bundle.entry]) {
         throw new Error(
-          `${
-            bundle.entry
-          } is missing. Make sure vue-server-renderer/server-plugin is excluded`,
+          `${bundle.entry} is missing. Make sure vue-server-renderer/server-plugin is excluded`,
         );
       }
 

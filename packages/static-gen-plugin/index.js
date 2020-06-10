@@ -8,13 +8,13 @@ const relativePathsFromHtml = ({ html, currentPath }) => {
   const $ = cheerio.load(html);
 
   const linkHrefs = $("a[href]")
-    .map(function(i, el) {
+    .map(function (i, el) {
       return $(el).attr("href");
     })
     .get();
 
   const iframeSrcs = $("iframe[src]")
-    .map(function(i, el) {
+    .map(function (i, el) {
       return $(el).attr("src");
     })
     .get();
@@ -22,7 +22,7 @@ const relativePathsFromHtml = ({ html, currentPath }) => {
   return []
     .concat(linkHrefs)
     .concat(iframeSrcs)
-    .map(function(href) {
+    .map(function (href) {
       if (href.indexOf("//") === 0) {
         return null;
       }
@@ -37,7 +37,7 @@ const relativePathsFromHtml = ({ html, currentPath }) => {
         ? parsed.path
         : url.resolve(currentPath, parsed.path);
     })
-    .filter(function(href) {
+    .filter(function (href) {
       return href != null;
     });
 };

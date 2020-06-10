@@ -16,7 +16,7 @@ class BundleServerPlugin {
         .entry("static-props")
         .add("static-props.js")
         .end()
-        .entry("server")
+        .entry("app")
         .add("entry-server.js")
         .end();
 
@@ -27,7 +27,7 @@ class BundleServerPlugin {
 
       webpackConfig.plugin("vue-server-bundle").use(
         new VueServerBundlePlugin({
-          entryName: "server",
+          entryName: "app",
         }),
       );
 

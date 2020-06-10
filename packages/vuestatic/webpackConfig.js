@@ -22,6 +22,9 @@ const applyBaseConfig = ({ isProd, srcDir }, webpackConfig) => {
     .use("vue-style-loader")
     .loader("vue-style-loader")
     .end()
+    .use("mini-css-extract")
+    .loader(MiniCssExtractPlugin.loader)
+    .end()
     .use("css-loader")
     .loader("css-loader")
     .options({
