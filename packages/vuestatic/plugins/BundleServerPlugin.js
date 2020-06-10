@@ -1,9 +1,11 @@
+const path = require("path");
+const Config = require("webpack-chain");
+
 class BundleServerPlugin {
   apply({ hooks }) {
     const pluginName = "BundleServerPlugin";
 
     hooks["config"].tap(pluginName, ({ config }) => {
-      const Config = require("webpack-chain");
       const VueServerBundlePlugin = require("@bongnv/vue-ssr-server-webpack-plugin");
 
       const { applyBaseConfig } = require("./webpackConfig");
@@ -17,7 +19,7 @@ class BundleServerPlugin {
         .add("static-props.js")
         .end()
         .entry("app")
-        .add("entry-server.js")
+        .add(path.join(config.defaultVueApp, "entry-server.js"))
         .end();
 
       webpackConfig.output

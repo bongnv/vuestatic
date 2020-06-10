@@ -23,7 +23,7 @@ class GoogleAnalyticsPlugin {
 
     const pluginName = "GoogleAnalyticsPlugin";
     hooks["pre-config"].tap(pluginName, ({ config }: Execution) => {
-      config.clientPlugins.push(path.resolve(__dirname, "client.js"));
+      config.clientPlugins.push(path.resolve(__dirname, "client-plugin.js"));
     });
 
     hooks["post-config"].tap(pluginName, ({ config }: Execution) => {

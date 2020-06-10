@@ -3,7 +3,7 @@ const webpack = require("webpack");
 
 const ASSETS_FOLDER = "_assets";
 
-const applyBaseConfig = ({ isProd, srcDir, defaultVueApp }, webpackConfig) => {
+const applyBaseConfig = ({ isProd, srcDir }, webpackConfig) => {
   const { VueLoaderPlugin } = require("vue-loader");
   const MiniCssExtractPlugin = require("mini-css-extract-plugin");
   const { CleanWebpackPlugin } = require("clean-webpack-plugin");
@@ -37,7 +37,6 @@ const applyBaseConfig = ({ isProd, srcDir, defaultVueApp }, webpackConfig) => {
 
   webpackConfig.resolve.modules
     .add(srcDir)
-    .add(defaultVueApp)
     .add("node_modules");
 
   webpackConfig.plugin("vue-loader").use(new VueLoaderPlugin());

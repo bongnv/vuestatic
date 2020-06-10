@@ -1,18 +1,21 @@
+const path = require("path");
+const Config = require("webpack-chain");
+const VueSSRClientPlugin = require("vue-server-renderer/client-plugin");
+
+const { applyBaseConfig } = require("./webpackConfig");
+
 class BundleClientPlugin {
   apply({ hooks }) {
     const pluginName = "BundleClientPlugin";
 
     hooks["config"].tap(pluginName, ({ config }) => {
-      const path = require("path");
-      const Config = require("webpack-chain");
-      const VueSSRClientPlugin = require("vue-server-renderer/client-plugin");
-
-      const { applyBaseConfig } = require("./webpackConfig");
-      const { isProd } = config;
+      const { isProd, defaultVueApp } = config;
 
       const webpackConfig = new Config();
       applyBaseConfig(config, webpackConfig);
-      webpackConfig.entry("app").add("entry-client.js");
+      webpackConfig
+        .entry("app")
+        .add(path.join(defaultVueApp, "entry-client.js"));
 
       webpackConfig.output
         .path(config.outputDir)
@@ -39,6 +42,8 @@ class BundleClientPlugin {
 
       webpackConfig.plugin("vue-ssr-client").use(new VueSSRClientPlugin());
       config.clientWebpackConfig = webpackConfig;
+
+      config.clientPlugins.push(path.join(config.defaultVueApp, "DefaultClientPlugin.js"));
     });
 
     hooks["build"] &&

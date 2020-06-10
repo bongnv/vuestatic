@@ -1,14 +1,14 @@
 const applyClientPlugins = (options = {}) => {
   const plugins = options.plugins || [];
   const applyPlugins = plugins
-    .map((plugin) => `require("${plugin}")(props);`)
-    .join();
-  const code = `
-  function applyPlugins(props) {
-    ${applyPlugins}
-  }
+    .map((plugin, index) => `require("${plugin}")["default"](props);`)
+    .join('\n');
 
-  module.exports = applyPlugins;`;
+  const code = `
+  export default function applyPlugins(props) {
+    ${applyPlugins}
+  }`;
+
   return {
     cacheable: true,
     code,

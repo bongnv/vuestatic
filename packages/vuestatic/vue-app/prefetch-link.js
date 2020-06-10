@@ -1,4 +1,4 @@
-import join from "../shared/join";
+import join from "./join";
 
 const isBrowser = typeof window !== "undefined";
 const isSupported = isBrowser && "IntersectionObserver" in window;

@@ -7,7 +7,7 @@ interface Props {
   router: Router;
 }
 
-module.exports = function ({ Vue, router }: Props) {
+export default function ({ Vue, router }: Props) {
   Vue.use(VueAnalytics, {
     id: __GOOGLE_ANALYTICS_ID__,
     router,
