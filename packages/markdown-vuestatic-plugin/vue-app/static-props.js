@@ -86,7 +86,7 @@ const getTagPageData = async (tag) => {
   };
 };
 
-export default function (rawLocation) {
+export default function(rawLocation) {
   if (rawLocation === "/") {
     // todo: change index file
     return getPostBySlug("about", ["title", "html"]);

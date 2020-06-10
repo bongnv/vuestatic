@@ -121,7 +121,7 @@ const devMiddleware = (serverCompiler, clientDevMiddleware) => {
     return waitForBuild(() => {
       try {
         context
-          .getProps(req.path.replace(/pageData\.json/i, ""))
+          .getProps(req.path.replace(/pageProps\.json/i, ""))
           .then((pageData) => {
             res.json(pageData);
           })

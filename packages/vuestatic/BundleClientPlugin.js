@@ -3,7 +3,6 @@ class BundleClientPlugin {
     const pluginName = "BundleClientPlugin";
 
     hooks["config"].tap(pluginName, ({ config }) => {
-      const path = require("path");
       const Config = require("webpack-chain");
       const VueSSRClientPlugin = require("vue-server-renderer/client-plugin");
 
@@ -12,9 +11,7 @@ class BundleClientPlugin {
 
       const webpackConfig = new Config();
       applyBaseConfig(config, webpackConfig);
-      webpackConfig
-        .entry("client")
-        .add(path.join(config.baseDir, "src/entry-client.js"));
+      webpackConfig.entry("client").add("entry-client.js");
 
       webpackConfig.output
         .path(config.outputDir)

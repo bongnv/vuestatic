@@ -32,7 +32,10 @@ const applyBaseConfig = ({ isProd, srcDir }, webpackConfig) => {
     .loader("postcss-loader")
     .end();
 
-  webpackConfig.resolve.modules.add("node_modules").add(srcDir);
+  webpackConfig.resolve.modules
+    .add(srcDir)
+    .add(path.resolve(__dirname, "vue-app"))
+    .add("node_modules");
 
   webpackConfig.plugin("vue-loader").use(new VueLoaderPlugin());
   webpackConfig.plugin("mini-css-extract").use(
