@@ -7,6 +7,9 @@
   "devDependencies": {
     "lerna": "^3.22.1"
   },
+  "publishConfig": {
+    "registry": " https://registry.npmjs.org"
+  },
   "workspaces": [
     "packages/*"
   ]
