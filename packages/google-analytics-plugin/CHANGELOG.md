@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.2.0](https://github.com/bongnv/vuestatic/compare/@bongnv/google-analytics-plugin@0.1.0...@bongnv/google-analytics-plugin@0.2.0) (2020-06-10)
+
+
+### Features
+
+* allow to inject scripts ([7db7ca6](https://github.com/bongnv/vuestatic/commit/7db7ca64fb6ef5b2dfc77fb846b47e0b108e9404))
+
+
+
+
+
 # 0.1.0 (2020-06-10)
 
 

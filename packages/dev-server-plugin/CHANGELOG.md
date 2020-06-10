@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.4.0](https://github.com/bongnv/vuestatic/compare/@bongnv/dev-server-plugin@0.3.1...@bongnv/dev-server-plugin@0.4.0) (2020-06-10)
+
+
+### Features
+
+* allow to inject scripts ([7db7ca6](https://github.com/bongnv/vuestatic/commit/7db7ca64fb6ef5b2dfc77fb846b47e0b108e9404))
+
+
+
+
+
 ## [0.3.1](https://github.com/bongnv/vuestatic/compare/@bongnv/dev-server-plugin@0.3.0...@bongnv/dev-server-plugin@0.3.1) (2020-06-10)
 
 **Note:** Version bump only for package @bongnv/dev-server-plugin
