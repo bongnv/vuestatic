@@ -1,17 +1,16 @@
 const { AsyncSeriesHook } = require("tapable");
 const _ = require("lodash");
 
-const BundleClientPlugin = require("./BundleClientPlugin");
-const BundleServerPlugin = require("./BundleServerPlugin");
 const DevServerPlugin = require("@bongnv/dev-server-plugin");
 const StaticGenPlugin = require("@bongnv/static-gen-plugin");
-const NormalizeConfigPlugin = require("./NormalizeConfigPlugin");
 const MarkdownVueStaticPlugin = require("@bongnv/markdown-vuestatic-plugin");
+const BundleClientPlugin = require("./plugins/BundleClientPlugin");
+const BundleServerPlugin = require("./plugins/BundleServerPlugin");
+const NormalizeConfigPlugin = require("./plugins/NormalizeConfigPlugin");
 
 class Execution {
   constructor(config = {}) {
     this.config = config;
-    this.plugins = config.plugins || [];
     this.steps = ["config", config.isWatch ? "dev" : "build"];
     this.hooks = {};
   }
@@ -33,8 +32,24 @@ class Execution {
     await this.hooks["post-" + name].promise(this);
   }
 
+  _loadLocalConfig() {
+    const path = require("path");
+    const fs = require("fs");
+    const localConfigFile = path.resolve(process.cwd(), "vuestatic.config.js");
+    if (fs.existsSync(localConfigFile)) {
+      const localConfig = require(path.resolve(
+        process.cwd(),
+        "vuestatic.config.js",
+      ));
+      this.config = Object.assign(this.config, localConfig);
+    } else {
+      console.warn("vuestatic.config.js is not found.");
+    }
+  }
+
   _applyPlugins() {
-    const plugins = _.compact([
+    const plugins = this.config.plugins || [];
+    plugins.unshift(
       new NormalizeConfigPlugin(),
       new BundleClientPlugin(),
       new BundleServerPlugin(),
@@ -43,13 +58,13 @@ class Execution {
         crawl: true,
       }),
       this.config.isWatch && new DevServerPlugin(),
-      ...this.plugins,
-    ]);
+    );
 
-    plugins.forEach((plugin) => plugin.apply(this));
+    _.compact(plugins).forEach((plugin) => plugin.apply(this));
   }
 
   async run() {
+    this._loadLocalConfig();
     this._setupSteps();
     this._applyPlugins();
 

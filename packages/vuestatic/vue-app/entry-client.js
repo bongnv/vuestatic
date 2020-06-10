@@ -1,11 +1,10 @@
 import Vue from "vue";
-import VueAnalytics from "vue-analytics";
 
 import PrefetchLink from "./plugins/prefetch-link";
 import join from "./shared/join";
+import applyClientPlugins from "./applyClientPlugins";
 
 import { createApp } from "app";
-import siteMeta from "site-meta";
 
 const handleRouteChange = () => {
   const lazyImages = [].slice.call(document.querySelectorAll("img.lazy"));
@@ -38,12 +37,7 @@ const { app, router } = createApp();
 
 Vue.use(PrefetchLink);
 
-if (siteMeta.GA) {
-  Vue.use(VueAnalytics, {
-    id: siteMeta.GA,
-    router,
-  });
-}
+applyClientPlugins({ Vue, app, router });
 
 router.beforeResolve((to, from, next) => {
   const pageDataURL = join(to.path, "pageProps.json");

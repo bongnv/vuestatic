@@ -8,6 +8,8 @@ class NormalizeConfigPlugin {
     config.isProd = config.isProd || process.env.NODE_ENV === "production";
     config.srcDir = path.join(config.baseDir, "src");
     config.outputDir = path.join(config.baseDir, "dist");
+    config.clientPlugins = [];
+    config.defaultVueApp = path.resolve(__dirname, "../vue-app");
   }
 }
 

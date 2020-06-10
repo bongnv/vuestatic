@@ -1,5 +1,6 @@
-const vueStatic = require("./vueStatic");
+const Execution = require("./Execution");
 
-module.exports = {
-  vueStatic,
+const vueStatic = (config) => {
+  return new Execution(config);
 };
+module.exports = vueStatic;

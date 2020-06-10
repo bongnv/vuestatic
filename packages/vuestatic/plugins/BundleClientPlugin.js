@@ -3,6 +3,7 @@ class BundleClientPlugin {
     const pluginName = "BundleClientPlugin";
 
     hooks["config"].tap(pluginName, ({ config }) => {
+      const path = require("path");
       const Config = require("webpack-chain");
       const VueSSRClientPlugin = require("vue-server-renderer/client-plugin");
 
@@ -27,13 +28,22 @@ class BundleClientPlugin {
         .use("babel-loader")
         .loader("babel-loader");
 
+      webpackConfig.module
+        .rule("compile-client-plugins")
+        .test(path.join(config.defaultVueApp, "applyClientPlugins.js"))
+        .use("val-loader")
+        .options({
+          plugins: config.clientPlugins,
+        })
+        .loader("val-loader");
+
       webpackConfig.plugin("vue-ssr-client").use(new VueSSRClientPlugin());
       config.clientWebpackConfig = webpackConfig;
     });
 
     hooks["build"] &&
       hooks["build"].tapPromise(pluginName, async ({ config }) => {
-        const { webpackAsync } = require("./utils");
+        const { webpackAsync } = require("../utils");
 
         const clientResult = await webpackAsync(
           config.clientWebpackConfig.toConfig(),

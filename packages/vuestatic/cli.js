@@ -1,11 +1,11 @@
 #!/usr/bin/env node
 
 const cac = require("cac");
-const vueStatic = require("./vueStatic");
+const Execution = require("./Execution");
 
 const cli = cac("vuestatic");
 cli.command("build", "Build the static site").action((options) => {
-  vueStatic(options).run();
+  new Execution(options).run();
 });
 
 cli.command("dev", "Start development mode").action((options) => {
@@ -13,7 +13,7 @@ cli.command("dev", "Start development mode").action((options) => {
     ...options,
     isWatch: true,
   };
-  vueStatic(devOptions).run();
+  new Execution(devOptions).run();
 });
 
 cli.help();

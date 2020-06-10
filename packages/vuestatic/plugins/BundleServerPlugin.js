@@ -36,7 +36,7 @@ class BundleServerPlugin {
 
     hooks["build"] &&
       hooks["build"].tapPromise(pluginName, async ({ config }) => {
-        const { webpackAsync } = require("./utils");
+        const { webpackAsync } = require("../utils");
 
         const serverResult = await webpackAsync(
           config.serverWebpackConfig.toConfig(),
