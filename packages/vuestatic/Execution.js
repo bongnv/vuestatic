@@ -5,8 +5,10 @@ const DevServerPlugin = require("@bongnv/dev-server-plugin");
 const StaticGenPlugin = require("@bongnv/static-gen-plugin");
 const MarkdownVueStaticPlugin = require("@bongnv/markdown-vuestatic-plugin");
 const BundleAnalyzerPlugin = require("@bongnv/bundle-analyzer-plugin");
-const BundleClientPlugin = require("./plugins/BundleClientPlugin");
-const BundleServerPlugin = require("./plugins/BundleServerPlugin");
+const {
+  BundleClientPlugin,
+  BundleServerPlugin,
+} = require("@bongnv/vuestatic-core-plugin");
 const NormalizeConfigPlugin = require("./plugins/NormalizeConfigPlugin");
 
 class Execution {

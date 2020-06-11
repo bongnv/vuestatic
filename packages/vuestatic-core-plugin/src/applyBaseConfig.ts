@@ -1,15 +1,15 @@
-const path = require("path");
-const webpack = require("webpack");
+import path from "path";
+import webpack from "webpack";
+import Config from "webpack-chain";
+import MiniCssExtractPlugin from "mini-css-extract-plugin";
+import { VueLoaderPlugin } from "vue-loader";
+import { CleanWebpackPlugin } from "clean-webpack-plugin";
 
-const ASSETS_FOLDER = "_assets";
-
-const applyBaseConfig = ({ isProd, srcDir }, webpackConfig) => {
-  const { VueLoaderPlugin } = require("vue-loader");
-  const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-  const { CleanWebpackPlugin } = require("clean-webpack-plugin");
-
+const applyBaseConfig = (
+  { isProd, srcDir }: ExecutionConfig,
+  webpackConfig: Config,
+) => {
   webpackConfig.mode(isProd ? "production" : "development");
-
   webpackConfig.module
     .rule("compile-vue")
     .test(/\.vue$/)
@@ -35,25 +35,25 @@ const applyBaseConfig = ({ isProd, srcDir }, webpackConfig) => {
   webpackConfig.resolve.modules.add(srcDir).add("node_modules");
 
   webpackConfig.plugin("vue-loader").use(new VueLoaderPlugin());
+
   webpackConfig.plugin("mini-css-extract").use(
     new MiniCssExtractPlugin({
       filename: path.join(
-        ASSETS_FOLDER,
+        "_assets",
         isProd ? "[name].[contenthash].css" : "[name].css",
       ),
     }),
   );
+
   webpackConfig
     .plugin("clean")
     .use(new CleanWebpackPlugin({ cleanStaleWebpackAssets: false }));
+
   webpackConfig.plugin("define").use(
     new webpack.DefinePlugin({
       "process.env.NODE_ENV": isProd ? '"production"' : '"development"',
-      "process.env.VUE_ENV": '"client"',
     }),
   );
 };
 
-module.exports = {
-  applyBaseConfig,
-};
+export = applyBaseConfig;

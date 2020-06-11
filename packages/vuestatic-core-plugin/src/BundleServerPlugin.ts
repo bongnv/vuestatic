@@ -1,16 +1,17 @@
-const path = require("path");
-const Config = require("webpack-chain");
+import path from "path";
+import VueServerBundlePlugin from "@bongnv/vue-ssr-server-webpack-plugin";
+import Config from "webpack-chain";
+
+import applyBaseConfig from "./applyBaseConfig";
+import webpackAsync from "./webpackAsync";
 
 class BundleServerPlugin {
-  apply({ hooks }) {
+  apply({ hooks }: Execution) {
     const pluginName = "BundleServerPlugin";
 
-    hooks["config"].tap(pluginName, ({ config }) => {
-      const VueServerBundlePlugin = require("@bongnv/vue-ssr-server-webpack-plugin");
-
-      const { applyBaseConfig } = require("./webpackConfig");
-
+    hooks["config"].tap(pluginName, ({ config }: Execution) => {
       const webpackConfig = new Config();
+
       applyBaseConfig(config, webpackConfig);
 
       webpackConfig
@@ -37,9 +38,7 @@ class BundleServerPlugin {
     });
 
     hooks["build"] &&
-      hooks["build"].tapPromise(pluginName, async ({ config }) => {
-        const webpackAsync = require("./webpackAsync");
-
+      hooks["build"].tapPromise(pluginName, async ({ config }: Execution) => {
         const serverResult = await webpackAsync(
           config.serverWebpackConfig.toConfig(),
         );
@@ -48,4 +47,4 @@ class BundleServerPlugin {
   }
 }
 
-module.exports = BundleServerPlugin;
+export = BundleServerPlugin;

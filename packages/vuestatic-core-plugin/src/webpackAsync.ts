@@ -1,6 +1,6 @@
-const webpack = require("webpack");
+import webpack from "webpack";
 
-const webpackAsync = (config) => {
+const webpackAsync = (config: ExecutionConfig): Promise<webpack.Stats> => {
   return new Promise((resolve, reject) => {
     webpack(config, (err, stats) => {
       if (err) {
@@ -10,7 +10,7 @@ const webpackAsync = (config) => {
 
       if (stats.hasErrors()) {
         console.error(stats.toString());
-        return reject(new Error("Failed to compile with errors."));
+        return reject(new Error("Failed to compile with errors"));
       }
 
       resolve(stats);
@@ -18,4 +18,4 @@ const webpackAsync = (config) => {
   });
 };
 
-module.exports = webpackAsync;
+export = webpackAsync;
