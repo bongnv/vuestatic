@@ -9,7 +9,6 @@ class NormalizeConfigPlugin {
     config.srcDir = path.join(config.baseDir, "src");
     config.outputDir = path.join(config.baseDir, "dist");
     config.clientPlugins = [];
-    config.defaultVueApp = path.resolve(__dirname, "../vue-app");
     config.publicPath = "/";
   }
 }

@@ -1,5 +1,5 @@
-import PrefetchLink from "./prefetch-link";
-import join from "./join";
+import { PrefetchLink } from "./prefetch-link";
+import { join } from "./join";
 
 const handleRouteChange = () => {
   const lazyImages = [].slice.call(document.querySelectorAll("img.lazy"));

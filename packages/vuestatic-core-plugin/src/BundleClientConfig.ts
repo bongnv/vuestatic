@@ -6,11 +6,13 @@ import applyBaseConfig from "./applyBaseConfig";
 import webpackAsync from "./webpackAsync";
 
 class BundleClientPlugin {
-  apply({ hooks }: Execution) {
+  apply({ hooks, config }: Execution) {
     const pluginName = "BundleClientPlugin";
 
+    config.coreVueApp = path.resolve(__dirname, "../vue-app");
+
     hooks["config"].tap(pluginName, ({ config }: Execution) => {
-      const { isProd, defaultVueApp } = config;
+      const { isProd, coreVueApp } = config;
 
       const webpackConfig = new Config();
 
@@ -18,7 +20,7 @@ class BundleClientPlugin {
 
       webpackConfig
         .entry("app")
-        .add(path.join(defaultVueApp, "entry-client.js"));
+        .add(path.join(coreVueApp, "entry-client.js"));
 
       webpackConfig.output
         .path(config.outputDir)
@@ -36,7 +38,7 @@ class BundleClientPlugin {
 
       webpackConfig.module
         .rule("compile-client-plugins")
-        .test(path.join(config.defaultVueApp, "applyClientPlugins.js"))
+        .test(path.join(config.coreVueApp, "applyClientPlugins.js"))
         .use("val-loader")
         .loader("val-loader")
         .options({
@@ -48,7 +50,7 @@ class BundleClientPlugin {
       config.clientWebpackConfig = webpackConfig;
 
       config.clientPlugins.push(
-        path.join(config.defaultVueApp, "client-plugin.js"),
+        path.join(config.coreVueApp, "client-plugin.js"),
       );
     });
 

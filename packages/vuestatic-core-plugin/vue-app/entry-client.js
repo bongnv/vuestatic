@@ -1,6 +1,6 @@
 import Vue from "vue";
 
-import applyClientPlugins from "./applyClientPlugins";
+import { applyClientPlugins } from "./applyClientPlugins";
 
 import { createApp } from "app";
 

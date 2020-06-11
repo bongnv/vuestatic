@@ -32,6 +32,14 @@ const applyBaseConfig = (
     .loader("postcss-loader")
     .end();
 
+  webpackConfig.module
+    .rule("compile-ts")
+    .test(/\.ts$/)
+    .use("ts-loader")
+    .loader("ts-loader")
+    .end();
+
+  webpackConfig.resolve.extensions.add(".ts").add(".js").end();
   webpackConfig.resolve.modules.add(srcDir).add("node_modules");
 
   webpackConfig.plugin("vue-loader").use(new VueLoaderPlugin());

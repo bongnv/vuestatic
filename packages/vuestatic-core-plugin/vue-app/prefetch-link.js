@@ -1,4 +1,4 @@
-import join from "./join";
+import { join } from "./join";
 
 const isBrowser = typeof window !== "undefined";
 const isSupported = isBrowser && "IntersectionObserver" in window;
@@ -7,7 +7,7 @@ const requestIdleCallback =
     ? window.requestIdleCallback
     : (cb) => setTimeout(cb, 0);
 
-const installPrefetchLink = (Vue) => {
+const install = (Vue) => {
   if (!isSupported) {
     console.warn("Not supported, falling back to router-link");
     return;
@@ -59,6 +59,6 @@ const installPrefetchLink = (Vue) => {
   Vue.component("router-link", PrefetchLink);
 };
 
-export default {
-  install: installPrefetchLink,
-};
+export const PrefetchLink = {
+  install,
+}
