@@ -34,4 +34,4 @@ class GoogleAnalyticsPlugin {
   }
 }
 
-module.exports = GoogleAnalyticsPlugin;
+export = GoogleAnalyticsPlugin;

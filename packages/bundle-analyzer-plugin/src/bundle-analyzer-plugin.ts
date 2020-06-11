@@ -17,4 +17,4 @@ class BundleAnalyzerPlugin {
   }
 }
 
-module.exports = BundleAnalyzerPlugin;
+export = BundleAnalyzerPlugin;
