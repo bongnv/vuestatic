@@ -6,7 +6,7 @@ import applyBaseConfig from "./applyBaseConfig";
 import webpackAsync from "./webpackAsync";
 
 class BundleClientPlugin {
-  apply({ hooks, config }: Execution) {
+  apply({ hooks, config }: Execution): void {
     const pluginName = "BundleClientPlugin";
 
     config.coreVueApp = path.resolve(__dirname, "../vue-app");
@@ -18,9 +18,7 @@ class BundleClientPlugin {
 
       applyBaseConfig(config, webpackConfig);
 
-      webpackConfig
-        .entry("app")
-        .add(path.join(coreVueApp, "entry-client.js"));
+      webpackConfig.entry("app").add(path.join(coreVueApp, "entry-client.js"));
 
       webpackConfig.output
         .path(config.outputDir)

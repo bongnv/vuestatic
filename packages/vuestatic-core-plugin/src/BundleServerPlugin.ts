@@ -6,7 +6,7 @@ import applyBaseConfig from "./applyBaseConfig";
 import webpackAsync from "./webpackAsync";
 
 class BundleServerPlugin {
-  apply({ hooks }: Execution) {
+  apply({ hooks }: Execution): void {
     const pluginName = "BundleServerPlugin";
 
     hooks["config"].tap(pluginName, ({ config }: Execution) => {
@@ -20,7 +20,7 @@ class BundleServerPlugin {
         .add("static-props.js")
         .end()
         .entry("app")
-        .add(path.join(config.coreVueApp, "entry-server.ts"))
+        .add(path.join(config.coreVueApp, "entry-server.js"))
         .end();
 
       webpackConfig.output

@@ -61,4 +61,4 @@ const install = (Vue) => {
 
 export const PrefetchLink = {
   install,
-}
+};

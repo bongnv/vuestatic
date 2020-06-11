@@ -14,6 +14,14 @@ module.exports = {
     ecmaVersion: 2018,
     sourceType: "module",
   },
+  overrides: [
+    {
+      files: ["*.js"],
+      rules: {
+        "@typescript-eslint/explicit-module-boundary-types": "off",
+      },
+    },
+  ],
   plugins: ["prettier", "@typescript-eslint"],
   ignorePatterns: ["/lib/", "__tests__"],
 };
