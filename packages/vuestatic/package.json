@@ -13,6 +13,7 @@
     "format": "prettier --write \"**/*.{js,jsx,vue,json,md,css}\""
   },
   "dependencies": {
+    "@bongnv/bundle-analyzer-plugin": "^0.1.0",
     "@bongnv/dev-server-plugin": "^0.4.0",
     "@bongnv/markdown-vuestatic-plugin": "^0.2.1",
     "@bongnv/static-gen-plugin": "^0.4.0",
@@ -25,6 +26,7 @@
     "val-loader": "^2.1.1",
     "vue": "^2.6.11",
     "vue-meta": "^2.4.0",
+    "vue-router": "^3.3.2",
     "webpack": "^4.43.0"
   },
   "devDependencies": {

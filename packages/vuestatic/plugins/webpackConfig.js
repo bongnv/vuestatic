@@ -19,9 +19,6 @@ const applyBaseConfig = ({ isProd, srcDir }, webpackConfig) => {
   webpackConfig.module
     .rule("compile-css")
     .test(/\.css$/)
-    .use("vue-style-loader")
-    .loader("vue-style-loader")
-    .end()
     .use("mini-css-extract")
     .loader(MiniCssExtractPlugin.loader)
     .end()
