@@ -1,6 +1,6 @@
 {
   "name": "@bongnv/google-analytics-plugin",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "A VueStatic plugin to support Google Analytics",
   "author": "Bong Nguyen <van.bong@grabtaxi.com>",
   "homepage": "https://github.com/bongnv/vuestatic#readme",

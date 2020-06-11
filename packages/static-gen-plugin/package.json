@@ -1,6 +1,6 @@
 {
   "name": "@bongnv/static-gen-plugin",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "description": "A plugin for vuestatic to generate static sites",
   "main": "index.js",
   "author": "Bong Nguyen",
