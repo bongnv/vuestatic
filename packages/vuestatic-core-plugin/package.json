@@ -1,6 +1,6 @@
 {
   "name": "@bongnv/vuestatic-core-plugin",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "A VueStatic plugin for core logic. It provides clientWebpackConfig & serverWebpackConfig.",
   "author": "Bong Nguyen <van.bong@grabtaxi.com>",
   "homepage": "https://github.com/bongnv/vuestatic#readme",

@@ -1,6 +1,6 @@
 {
   "name": "@bongnv/vuestatic",
-  "version": "0.7.1",
+  "version": "0.7.2",
   "description": "Another Vue static site generator",
   "main": "index.js",
   "bin": {
@@ -14,11 +14,11 @@
   },
   "dependencies": {
     "@bongnv/bundle-analyzer-plugin": "^0.1.1",
-    "@bongnv/dev-server-plugin": "^0.4.0",
+    "@bongnv/dev-server-plugin": "^0.4.1",
     "@bongnv/markdown-vuestatic-plugin": "^0.2.1",
-    "@bongnv/static-gen-plugin": "^0.4.1",
+    "@bongnv/static-gen-plugin": "^0.4.2",
     "@bongnv/vue-ssr-server-webpack-plugin": "^0.3.1",
-    "@bongnv/vuestatic-core-plugin": "^0.1.1",
+    "@bongnv/vuestatic-core-plugin": "^0.1.2",
     "cac": "^6.5.10",
     "lodash": "^4.17.15",
     "tapable": "^1.1.3",
