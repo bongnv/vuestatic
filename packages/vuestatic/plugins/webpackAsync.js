@@ -18,6 +18,4 @@ const webpackAsync = (config) => {
   });
 };
 
-module.exports = {
-  webpackAsync,
-};
+module.exports = webpackAsync;

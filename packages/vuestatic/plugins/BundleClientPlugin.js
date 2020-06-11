@@ -44,13 +44,13 @@ class BundleClientPlugin {
       config.clientWebpackConfig = webpackConfig;
 
       config.clientPlugins.push(
-        path.join(config.defaultVueApp, "DefaultClientPlugin.js"),
+        path.join(config.defaultVueApp, "client-plugin.js"),
       );
     });
 
     hooks["build"] &&
       hooks["build"].tapPromise(pluginName, async ({ config }) => {
-        const { webpackAsync } = require("../utils");
+        const webpackAsync = require("./webpackAsync");
 
         const clientResult = await webpackAsync(
           config.clientWebpackConfig.toConfig(),
