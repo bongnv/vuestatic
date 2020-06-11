@@ -4,6 +4,7 @@ const _ = require("lodash");
 const DevServerPlugin = require("@bongnv/dev-server-plugin");
 const StaticGenPlugin = require("@bongnv/static-gen-plugin");
 const MarkdownVueStaticPlugin = require("@bongnv/markdown-vuestatic-plugin");
+const BundleAnalyzerPlugin = require("@bongnv/bundle-analyzer-plugin");
 const BundleClientPlugin = require("./plugins/BundleClientPlugin");
 const BundleServerPlugin = require("./plugins/BundleServerPlugin");
 const NormalizeConfigPlugin = require("./plugins/NormalizeConfigPlugin");
@@ -48,16 +49,19 @@ class Execution {
   }
 
   _applyPlugins() {
+    const { isWatch, isAnalyze } = this.config;
     const plugins = this.config.plugins || [];
     plugins.unshift(
       new NormalizeConfigPlugin(),
       new BundleClientPlugin(),
-      new BundleServerPlugin(),
-      new MarkdownVueStaticPlugin(),
-      new StaticGenPlugin({
-        crawl: true,
-      }),
-      this.config.isWatch && new DevServerPlugin(),
+      !isAnalyze && new BundleServerPlugin(),
+      !isAnalyze && new MarkdownVueStaticPlugin(),
+      !isAnalyze &&
+        new StaticGenPlugin({
+          crawl: true,
+        }),
+      isAnalyze && new BundleAnalyzerPlugin(),
+      isWatch && new DevServerPlugin(),
     );
 
     _.compact(plugins).forEach((plugin) => plugin.apply(this));

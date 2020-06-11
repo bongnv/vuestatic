@@ -16,6 +16,14 @@ cli.command("dev", "Start development mode").action((options) => {
   new Execution(devOptions).run();
 });
 
+cli.command("analyze", "Analyze the client bundle").action((options) => {
+  const analyzeOptions = {
+    ...options,
+    isAnalyze: true,
+  };
+  new Execution(analyzeOptions).run();
+});
+
 cli.help();
 
 cli.parse();

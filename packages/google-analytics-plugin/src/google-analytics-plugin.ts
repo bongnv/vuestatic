@@ -19,8 +19,6 @@ class GoogleAnalyticsPlugin {
   }
 
   apply({ hooks }: Execution) {
-    console.log("applying google analytics plugin");
-
     const pluginName = "GoogleAnalyticsPlugin";
     hooks["pre-config"].tap(pluginName, ({ config }: Execution) => {
       config.clientPlugins.push(path.resolve(__dirname, "client-plugin.js"));

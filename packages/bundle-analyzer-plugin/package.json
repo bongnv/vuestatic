@@ -1,11 +1,11 @@
 {
-  "name": "@bongnv/google-analytics-plugin",
-  "version": "0.2.0",
-  "description": "A VueStatic plugin to support Google Analytics",
+  "name": "@bongnv/bundle-analyzer-plugin",
+  "version": "0.0.0",
+  "description": "A VueStatic plugin for visualize webpack outputs",
   "author": "Bong Nguyen <van.bong@grabtaxi.com>",
   "homepage": "https://github.com/bongnv/vuestatic#readme",
   "license": "MIT",
-  "main": "lib/google-analytics-plugin.js",
+  "main": "lib/bundle-analyzer-plugin.js",
   "directories": {
     "lib": "lib",
     "test": "__tests__"
@@ -14,6 +14,7 @@
     "lib"
   ],
   "publishConfig": {
+    "registry": "https://registry.yarnpkg.com",
     "access": "public"
   },
   "repository": {
@@ -25,28 +26,18 @@
     "tsc": "tsc",
     "prepublishOnly": "npm run clean && npm run tsc",
     "lint": "eslint --fix --ext=js,jsx,ts --cache .",
-    "format": "prettier --write \"**/*.{js,jsx,ts,json,md,css}\"",
     "test": "echo \"Error: run tests from root\" && exit 1"
   },
   "bugs": {
     "url": "https://github.com/bongnv/vuestatic/issues"
   },
   "devDependencies": {
-    "@types/node": "^14.0.13",
-    "@types/webpack": "^4.41.17",
-    "@typescript-eslint/eslint-plugin": "^3.2.0",
-    "@typescript-eslint/parser": "^3.2.0",
+    "@types/webpack-bundle-analyzer": "^3.8.0",
     "rimraf": "^3.0.2",
-    "typescript": "^3.9.5",
-    "vue": "^2.6.11",
-    "vue-router": "^3.3.2",
-    "vuex": "^3.4.0"
-  },
-  "peerDependencies": {
-    "vue": "^2.6.11",
-    "webpack": "^4.43.0"
+    "tapable": "^1.1.3",
+    "typescript": "^3.9.5"
   },
   "dependencies": {
-    "vue-analytics": "^5.22.1"
+    "webpack-bundle-analyzer": "^3.8.0"
   }
 }
