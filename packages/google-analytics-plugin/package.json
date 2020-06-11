@@ -37,13 +37,12 @@
     "@typescript-eslint/eslint-plugin": "^3.2.0",
     "@typescript-eslint/parser": "^3.2.0",
     "rimraf": "^3.0.2",
-    "typescript": "^3.9.5",
-    "vue": "^2.6.11",
-    "vue-router": "^3.3.2",
-    "vuex": "^3.4.0"
+    "typescript": "^3.9.5"
   },
   "peerDependencies": {
     "vue": "^2.6.11",
+    "vue-router": "^3.3.2",
+    "vuex": "^3.4.0",
     "webpack": "^4.43.0"
   },
   "dependencies": {
