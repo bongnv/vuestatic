@@ -44,6 +44,7 @@
     "typescript": "^3.9.5",
     "val-loader": "^2.1.1",
     "vue-loader": "^15.9.2",
+    "vue-router": "^3.3.2",
     "vue-server-renderer": "^2.6.11",
     "vue-template-compiler": "^2.6.11",
     "webpack-chain": "^6.4.0"

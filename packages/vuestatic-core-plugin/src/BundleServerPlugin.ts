@@ -20,7 +20,7 @@ class BundleServerPlugin {
         .add("static-props.js")
         .end()
         .entry("app")
-        .add(path.join(config.coreVueApp, "entry-server.js"))
+        .add(path.join(config.coreVueApp, "entry-server.ts"))
         .end();
 
       webpackConfig.output
