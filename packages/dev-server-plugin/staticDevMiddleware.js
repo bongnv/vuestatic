@@ -14,7 +14,7 @@ const getClientManifest = (middleware) => {
 };
 
 const setupHooks = (context) => {
-  const templateFile = path.join(context.config.defaultVueApp, "index.html");
+  const templateFile = path.resolve(__dirname, "index.html");
   const invalid = () => {
     if (context.ready) {
       console.log("Compiling...");

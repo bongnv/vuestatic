@@ -54,12 +54,12 @@ class BundleStaticPlugin {
     this.htmlMinifierOptions = options.htmlMinifier || {};
   }
 
-  async createRenderer({ defaultVueApp }) {
+  async createRenderer() {
     const { createBundleRenderer } = require("vue-server-renderer");
     const genStaticProps = require(this.staticPropsFile).default;
 
     const template = await fs.readFile(
-      path.join(defaultVueApp, "index.html"),
+      path.resolve(__dirname, "index.html"),
       "utf-8",
     );
     const clientManifest = JSON.parse(

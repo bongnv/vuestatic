@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html {{ meta.inject().htmlAttrs.text(true) }}>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="initial-scale=1.0, width=device-width">
+  {{{ meta.inject().title.text() }}}
+  {{{ meta.inject().meta.text() }}}
+  {{{ meta.inject().link.text() }}}
+  <link rel="preload" href="{{ pageDataPath }}" as="fetch" crossorigin="anonymous">
+  {{{ meta.inject().script.text() }}}
+</head>
+
+<body>
+  {{{ meta.inject().script.text({ pbody: true}) }}}
+  <!--vue-ssr-outlet-->
+</body>
+
+</html>
