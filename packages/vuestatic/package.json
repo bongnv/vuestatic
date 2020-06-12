@@ -12,7 +12,8 @@
     "clean": "rimraf -rf ./lib",
     "tsc": "tsc",
     "watch": "tsc -w",
-    "prepublishOnly": "npm run clean && npm run tsc",
+    "build": "npm run tsc",
+    "prepublishOnly": "npm run clean && npm run build",
     "lint": "eslint --fix --ext=js,jsx,ts --cache .",
     "format": "prettier --write \"**/*.{js,jsx,vue,json,md,css}\""
   },

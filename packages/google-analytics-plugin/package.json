@@ -23,6 +23,7 @@
   "scripts": {
     "clean": "rimraf -rf ./lib",
     "tsc": "tsc",
+    "build": "npm run tsc",
     "watch": "tsc -w",
     "prepublishOnly": "npm run clean && npm run tsc",
     "lint": "eslint --fix --ext=js,jsx,ts --cache .",
