@@ -1,6 +1,6 @@
 {
   "name": "@bongnv/vuestatic",
-  "version": "0.7.3",
+  "version": "0.7.4",
   "description": "Another Vue static site generator",
   "main": "lib/index.js",
   "bin": {
@@ -17,12 +17,12 @@
     "format": "prettier --write \"**/*.{js,jsx,vue,json,md,css}\""
   },
   "dependencies": {
-    "@bongnv/bundle-analyzer-plugin": "^0.1.1",
-    "@bongnv/dev-server-plugin": "^0.4.1",
-    "@bongnv/markdown-vuestatic-plugin": "^0.2.1",
-    "@bongnv/static-gen-plugin": "^0.4.2",
+    "@bongnv/bundle-analyzer-plugin": "^0.1.2",
+    "@bongnv/dev-server-plugin": "^0.4.2",
+    "@bongnv/markdown-vuestatic-plugin": "^0.2.2",
+    "@bongnv/static-gen-plugin": "^0.4.3",
     "@bongnv/vue-ssr-server-webpack-plugin": "^0.3.1",
-    "@bongnv/vuestatic-core": "^0.0.0",
+    "@bongnv/vuestatic-core": "^0.0.1",
     "cac": "^6.5.10",
     "fs-extra": "^9.0.1",
     "lodash": "^4.17.15",

@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.4.3](https://github.com/bongnv/vuestatic/compare/@bongnv/google-analytics-plugin@0.4.2...@bongnv/google-analytics-plugin@0.4.3) (2020-06-12)
+
+
+### Bug Fixes
+
+* integrate with new architecture ([459316e](https://github.com/bongnv/vuestatic/commit/459316e701e16131eae5a0214964e858dd92b0f4))
+
+
+
+
+
 ## [0.4.2](https://github.com/bongnv/vuestatic/compare/@bongnv/google-analytics-plugin@0.4.1...@bongnv/google-analytics-plugin@0.4.2) (2020-06-11)
 
 **Note:** Version bump only for package @bongnv/google-analytics-plugin

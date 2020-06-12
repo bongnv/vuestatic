@@ -1,6 +1,6 @@
 {
   "name": "@bongnv/bundle-analyzer-plugin",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "A VueStatic plugin for visualize webpack outputs",
   "author": "Bong Nguyen <van.bong@grabtaxi.com>",
   "homepage": "https://github.com/bongnv/vuestatic#readme",
