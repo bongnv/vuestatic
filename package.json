@@ -1,8 +1,8 @@
 {
   "private": true,
   "scripts": {
+    "bootstrap": "lerna bootstrap",
     "lint": "lerna run lint --stream",
-    "format": "lerna run format --stream",
     "build": "lerna run build --stream",
     "watch": "lerna run watch --stream --no-sort",
     "test": "lerna run test --stream"

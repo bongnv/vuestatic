@@ -5,8 +5,7 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "lint": "eslint --fix --ext=js,jsx,vue --cache .",
-    "format": "prettier --write \"**/*.{js,jsx,vue,json,md,css}\""
+    "lint": "eslint --fix --ext=js,jsx,vue --cache ."
   },
   "publishConfig": {
     "access": "public"

@@ -12,8 +12,7 @@
     "vue-server-renderer": "^2.6.11"
   },
   "scripts": {
-    "lint": "eslint --fix --ext=js,jsx,vue --cache .",
-    "format": "prettier --write \"**/*.{js,jsx,vue,json,md,css}\""
+    "lint": "eslint --fix --ext=js,jsx,vue --cache ."
   },
   "publishConfig": {
     "access": "public"

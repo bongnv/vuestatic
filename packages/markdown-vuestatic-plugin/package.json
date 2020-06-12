@@ -9,8 +9,7 @@
     "access": "public"
   },
   "scripts": {
-    "lint": "eslint --fix --ext=js,jsx,vue --cache .",
-    "format": "prettier --write \"**/*.{js,jsx,vue,json,md,css}\""
+    "lint": "eslint --fix --ext=js,jsx,vue --cache ."
   },
   "dependencies": {
     "@bongnv/markdown-images-plugin": "^0.2.3",
