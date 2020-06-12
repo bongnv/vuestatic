@@ -32,5 +32,6 @@ jobs:
           */*/node_modules
         key: ${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}
     - run: yarn
+    - run: yarn bootstrap
     - run: yarn build
     - run: yarn test
