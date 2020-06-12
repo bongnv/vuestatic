@@ -1,6 +1,7 @@
 import path from "path";
-import VueServerBundlePlugin from "@bongnv/vue-ssr-server-webpack-plugin";
 import Config from "webpack-chain";
+import nodeExternals from "webpack-node-externals";
+import VueServerBundlePlugin from "@bongnv/vue-ssr-server-webpack-plugin";
 
 import applyBaseConfig from "./applyBaseConfig";
 import webpackAsync from "./webpackAsync";
@@ -33,6 +34,12 @@ export class BundleServerPlugin {
     );
 
     webpackConfig.optimization.minimize(false);
+    webpackConfig.externals(
+      nodeExternals({
+        // do not externalize CSS files in case we need to import it from a dep
+        whitelist: /\.css$/,
+      }),
+    );
 
     config.serverWebpackConfig = webpackConfig;
   }

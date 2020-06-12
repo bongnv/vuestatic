@@ -13,7 +13,7 @@ class GoogleAnalyticsPlugin {
     this.GA = id;
   }
 
-  apply({ steps, config }: Execution) {
+  apply({ steps, config }: Execution): void {
     const pluginName = "GoogleAnalyticsPlugin";
     config.clientPlugins.push(path.resolve(__dirname, "client-plugin.js"));
 

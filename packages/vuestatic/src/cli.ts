@@ -12,6 +12,7 @@ const cli = cac("vuestatic");
 cli.command("build", "Build the static site").action((options) => {
   new Execution({
     ...options,
+    isProd: process.env.NODE_ENV === "production",
     plugins: [
       new MarkdownVueStaticPlugin(),
       new StaticGenPlugin({
@@ -31,6 +32,7 @@ cli.command("dev", "Start development server").action((options) => {
 cli.command("analyze", "Analyze the client bundle").action((options) => {
   new Execution({
     ...options,
+    isProd: process.env.NODE_ENV === "production",
     plugins: [new BundleAnalyzerPlugin()],
   }).run("analyze");
 });
