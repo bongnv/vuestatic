@@ -7,6 +7,7 @@ import Config from "webpack-chain";
 import { BundleClientPlugin } from "./BundleClientPlugin";
 import { BundleServerPlugin } from "./BundleServerPlugin";
 import { mergeConfig } from "./mergeConfig";
+import { defaultExecutionConfig } from "./utils";
 
 interface Plugin {
   apply(execution: Execution): void;
@@ -31,11 +32,11 @@ export class Execution {
   commands: HookMap;
   steps: HookMap;
 
-  constructor(config: ExecutionConfig) {
+  constructor(rawConfig: Record<string, any>) {
     const params = ["execution"];
     this.commands = new HookMap(() => new AsyncSeriesHook(params));
     this.steps = new HookMap(() => new AsyncSeriesHook(params));
-    this.config = config;
+    this.config = mergeConfig(defaultExecutionConfig(), rawConfig);
   }
 
   async _loadLocalConfig(): Promise<void> {
@@ -49,19 +50,6 @@ export class Execution {
     } else {
       console.warn("vuestatic.config.js is not found.");
     }
-  }
-
-  _normalizeConfig(): void {
-    const config = this.config;
-    config.isProd = !!config.isProd;
-    config.baseDir = path.resolve(process.cwd());
-    config.outputDir = config.outputDir || path.join(config.baseDir, "dist");
-    config.publicPath = config.publicPath || "/";
-    config.serverPath = path.join(config.baseDir, ".vuestatic", "server");
-    config.srcDir = path.join(config.baseDir, "src");
-    config.coreVueApp = path.resolve(__dirname, "../vue-app");
-
-    config.clientPlugins = config.clientPlugins || [];
   }
 
   _applyPlugins(): void {
@@ -80,7 +68,6 @@ export class Execution {
 
   async run(command: string): Promise<void> {
     await this._loadLocalConfig();
-    this._normalizeConfig();
     this._applyPlugins();
     await this.commands.for(command).promise(this);
     await this._executeSteps();

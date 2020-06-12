@@ -25,17 +25,16 @@
     "tsc": "tsc",
     "watch": "tsc -w",
     "prepublishOnly": "npm run clean && npm run tsc",
-    "lint": "eslint --fix --ext=js,jsx,ts --cache .",
-    "test": "echo \"Error: run tests from root\" && exit 1"
+    "lint": "eslint --fix --ext=js,jsx,ts --cache ."
   },
   "bugs": {
     "url": "https://github.com/bongnv/vuestatic/issues"
   },
   "devDependencies": {
     "@types/webpack-bundle-analyzer": "^3.8.0",
+    "jest": "^26.0.1",
     "rimraf": "^3.0.2",
-    "tapable": "^1.1.3",
-    "typescript": "^3.9.5"
+    "tapable": "^1.1.3"
   },
   "dependencies": {
     "webpack": "^4.43.0",

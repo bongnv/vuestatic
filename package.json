@@ -3,7 +3,8 @@
   "scripts": {
     "lint": "lerna run lint --stream",
     "format": "lerna run format --stream",
-    "watch": "lerna run watch --stream --no-sort"
+    "watch": "lerna run watch --stream --no-sort",
+    "test": "lerna run test --stream"
   },
   "devDependencies": {
     "lerna": "^3.22.1"
