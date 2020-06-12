@@ -23,6 +23,7 @@
   "scripts": {
     "clean": "rimraf -rf ./lib",
     "tsc": "tsc",
+    "watch": "tsc -w",
     "prepublishOnly": "npm run clean && npm run tsc",
     "lint": "eslint --fix --ext=js,jsx,ts --cache .",
     "format": "prettier --write \"**/*.{js,jsx,ts,json,md,css}\"",
@@ -32,6 +33,7 @@
     "url": "https://github.com/bongnv/vuestatic/issues"
   },
   "devDependencies": {
+    "@bongnv/vuestatic-core": "^0.0.0",
     "@types/node": "^14.0.13",
     "@types/webpack": "^4.41.17",
     "@typescript-eslint/eslint-plugin": "^3.2.0",
@@ -42,8 +44,7 @@
   },
   "peerDependencies": {
     "vue": "^2.6.11",
-    "vue-router": "^3.3.2",
-    "webpack": "^4.43.0"
+    "vue-router": "^3.3.2"
   },
   "dependencies": {
     "vue-analytics": "^5.22.1",
