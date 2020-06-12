@@ -12,9 +12,9 @@
     "clean": "rimraf -rf ./lib",
     "tsc": "tsc",
     "watch": "tsc -w",
-    "prepublishOnly": "npm run clean && npm run tsc",
-    "lint": "eslint --fix --ext=js,jsx,ts --cache .",
-    "format": "prettier --write \"**/*.{js,jsx,vue,json,md,css}\""
+    "build": "npm run tsc",
+    "prepublishOnly": "npm run clean && npm run build",
+    "lint": "eslint --fix --ext=js,jsx,ts --cache ."
   },
   "dependencies": {
     "@bongnv/bundle-analyzer-plugin": "^0.1.2",

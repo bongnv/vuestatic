@@ -6,7 +6,7 @@ class BundleAnalyzerPlugin {
   apply({ commands }: Execution): void {
     const pluginName = "BundleAnalyzerPlugin";
     commands.for("analyze").tap(pluginName, ({ steps }: Execution) => {
-      steps.for("config").tap(pluginName, ({ config }) => {
+      steps.for("config").tap(pluginName, ({ config }: Execution) => {
         config.clientWebpackConfig
           .plugin("bundle-analyzer")
           .use(new WebpackBundleAnalyzer());
