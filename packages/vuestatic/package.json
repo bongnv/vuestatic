@@ -1,6 +1,6 @@
 {
   "name": "@bongnv/vuestatic",
-  "version": "0.7.4",
+  "version": "0.8.0",
   "description": "Another Vue static site generator",
   "main": "lib/index.js",
   "bin": {
@@ -22,7 +22,7 @@
     "@bongnv/markdown-vuestatic-plugin": "^0.2.2",
     "@bongnv/static-gen-plugin": "^0.4.3",
     "@bongnv/vue-ssr-server-webpack-plugin": "^0.3.1",
-    "@bongnv/vuestatic-core": "^0.0.1",
+    "@bongnv/vuestatic-core": "^0.1.0",
     "cac": "^6.5.10",
     "fs-extra": "^9.0.1",
     "lodash": "^4.17.15",

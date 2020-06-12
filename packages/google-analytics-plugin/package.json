@@ -1,6 +1,6 @@
 {
   "name": "@bongnv/google-analytics-plugin",
-  "version": "0.4.3",
+  "version": "0.5.0",
   "description": "A VueStatic plugin to support Google Analytics",
   "author": "Bong Nguyen <van.bong@grabtaxi.com>",
   "homepage": "https://github.com/bongnv/vuestatic#readme",
@@ -33,7 +33,7 @@
     "url": "https://github.com/bongnv/vuestatic/issues"
   },
   "devDependencies": {
-    "@bongnv/vuestatic-core": "^0.0.1",
+    "@bongnv/vuestatic-core": "^0.1.0",
     "@types/node": "^14.0.13",
     "@types/webpack": "^4.41.17",
     "@typescript-eslint/eslint-plugin": "^3.2.0",

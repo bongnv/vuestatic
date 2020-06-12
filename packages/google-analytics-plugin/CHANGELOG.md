@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="0.5.0"></a>
+# [0.5.0](https://github.com/bongnv/vuestatic/compare/@bongnv/google-analytics-plugin@0.4.3...@bongnv/google-analytics-plugin@0.5.0) (2020-06-12)
+
+
+### Features
+
+* exclude node files from server bundle ([7e109d1](https://github.com/bongnv/vuestatic/commit/7e109d1))
+
+
+
+
+# Change Log
+
+All notable changes to this project will be documented in this file.
+See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
 ## [0.4.3](https://github.com/bongnv/vuestatic/compare/@bongnv/google-analytics-plugin@0.4.2...@bongnv/google-analytics-plugin@0.4.3) (2020-06-12)
 
 
