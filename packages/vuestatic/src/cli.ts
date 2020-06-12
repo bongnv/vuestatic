@@ -5,6 +5,7 @@ import { Execution } from "@bongnv/vuestatic-core";
 import MarkdownVueStaticPlugin from "@bongnv/markdown-vuestatic-plugin";
 import DevServerPlugin from "@bongnv/dev-server-plugin";
 import StaticGenPlugin from "@bongnv/static-gen-plugin";
+import BundleAnalyzerPlugin from "@bongnv/bundle-analyzer-plugin";
 
 const cli = cac("vuestatic");
 
@@ -31,7 +32,12 @@ cli.command("dev", "Start development server").action((options) => {
 })
 
 cli.command("analyze", "Analyze the client bundle").action((options) => {
-  new Execution(options).run("analyze")
+  new Execution({
+    ...options,
+    plugins: [
+      new BundleAnalyzerPlugin(),
+    ]
+  }).run("analyze")
 })
 
 cli.help();

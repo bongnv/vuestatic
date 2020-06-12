@@ -41,11 +41,11 @@ export class BundleServerPlugin {
     const pluginName = "BundleServerPlugin";
 
     commands.for("build").tap(pluginName, ({ steps }: Execution) => {
-      steps.config.tap(pluginName, ({ config }: Execution) => {
+      steps.for("config").tap(pluginName, ({ config }: Execution) => {
         this.injectWebpackConfig(config);
       })
 
-      steps.execute.tapPromise(pluginName, async ({ config } : Execution) => {
+      steps.for("execute").tapPromise(pluginName, async ({ config } : Execution) => {
         const serverResult = await webpackAsync(
           config.serverWebpackConfig.toConfig(),
         );
@@ -54,7 +54,7 @@ export class BundleServerPlugin {
     });
 
     commands.for("dev").tap(pluginName, ({ steps }: Execution) => {
-      steps.config.tap(pluginName, ({ config }: Execution) => {
+      steps.for("config").tap(pluginName, ({ config }: Execution) => {
         this.injectWebpackConfig(config);
       })
     });

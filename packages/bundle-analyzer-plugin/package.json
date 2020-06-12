@@ -23,6 +23,7 @@
   "scripts": {
     "clean": "rimraf -rf ./lib",
     "tsc": "tsc",
+    "watch": "tsc -w",
     "prepublishOnly": "npm run clean && npm run tsc",
     "lint": "eslint --fix --ext=js,jsx,ts --cache .",
     "test": "echo \"Error: run tests from root\" && exit 1"
@@ -37,6 +38,7 @@
     "typescript": "^3.9.5"
   },
   "dependencies": {
+    "webpack": "^4.43.0",
     "webpack-bundle-analyzer": "^3.8.0"
   }
 }

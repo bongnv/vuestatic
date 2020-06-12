@@ -63,14 +63,14 @@ export class BundleClientPlugin {
   }
 
   apply({ commands, steps }: Execution): void {
-    this.setupConfig(steps.config);
+    this.setupConfig(steps.for("config"));
 
     commands.for("build").tapPromise(PLUGIN_NAME, async ({ steps }: Execution) => {
-      this.setupExecute(steps.execute);
+      this.setupExecute(steps.for("execute"));
     });
 
     commands.for("analyze").tapPromise(PLUGIN_NAME, async ({ steps }: Execution) => {
-      this.setupExecute(steps.execute);
+      this.setupExecute(steps.for("execute"));
     });
   }
 }

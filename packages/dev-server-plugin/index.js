@@ -3,7 +3,7 @@ class DevServerPlugin {
     const pluginName = "DevServerPlugin";
 
     commands.for("dev").tap(pluginName, ({ steps }) => {
-      steps.execute.tapAsync(pluginName, (execution, callback) => {
+      steps.for("execute").tapAsync(pluginName, (execution, callback) => {
         const path = require("path");
         const webpack = require("webpack");
         const devMiddleware = require("./staticDevMiddleware");

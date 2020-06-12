@@ -59,11 +59,11 @@ class MarkdownVueStaticPlugin {
 
   apply({ commands }) {
     commands.for("build").tap(PLUGIN_NAME, ({ steps }) => {
-      this.setupConfig(steps.config, false);
+      this.setupConfig(steps.for("config"), false);
     });
 
     commands.for("dev").tap(PLUGIN_NAME, ({ steps }) => {
-      this.setupConfig(steps.config, true);
+      this.setupConfig(steps.for("config"), true);
     });
   }
 }

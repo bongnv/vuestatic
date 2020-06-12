@@ -90,7 +90,7 @@ class StaticGenPlugin {
     const pluginName = "BundleStaticPlugin";
 
     commands.for("build").tap(pluginName, ({ steps }) => {
-      steps.execute.tapPromise(pluginName, async ({ config }) => {
+      steps.for("execute").tapPromise(pluginName, async ({ config }) => {
         this.serverBundlePath = path.join(
           config.serverPath,
           "vue-ssr-server-bundle.json",

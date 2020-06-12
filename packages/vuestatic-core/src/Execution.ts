@@ -29,18 +29,12 @@ export interface ExecutionConfig {
 export class Execution {
   config: ExecutionConfig;
   commands: HookMap;
-  steps: {
-    config: Hook;
-    execute: Hook;
-  }
+  steps: HookMap;
 
   constructor(config: ExecutionConfig) {
     const params = ["execution"];
     this.commands = new HookMap(() => new AsyncSeriesHook(params));
-    this.steps = {
-      config: new AsyncSeriesHook(params),
-      execute: new AsyncSeriesHook(params),
-    };
+    this.steps = new HookMap(() => new AsyncSeriesHook(params));
     this.config = config;
   }
 
@@ -83,9 +77,9 @@ export class Execution {
 
   async _executeSteps() {
     console.log("Preparing configuration...");
-    await this.steps.config.promise(this);
+    await this.steps.for("config").promise(this);
     console.log("Executing...");
-    await this.steps.execute.promise(this);
+    await this.steps.for("execute").promise(this);
   }
 
   async run(command: string) {
