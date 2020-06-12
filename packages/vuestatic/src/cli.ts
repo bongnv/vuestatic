@@ -17,28 +17,23 @@ cli.command("build", "Build the static site").action((options) => {
       new StaticGenPlugin({
         crawl: true,
       }),
-    ]
-  }).run("build")
-})
+    ],
+  }).run("build");
+});
 
 cli.command("dev", "Start development server").action((options) => {
   new Execution({
     ...options,
-    plugins: [
-      new MarkdownVueStaticPlugin(),
-      new DevServerPlugin(),
-    ],
-  }).run("dev")
-})
+    plugins: [new MarkdownVueStaticPlugin(), new DevServerPlugin()],
+  }).run("dev");
+});
 
 cli.command("analyze", "Analyze the client bundle").action((options) => {
   new Execution({
     ...options,
-    plugins: [
-      new BundleAnalyzerPlugin(),
-    ]
-  }).run("analyze")
-})
+    plugins: [new BundleAnalyzerPlugin()],
+  }).run("analyze");
+});
 
 cli.help();
 cli.parse();

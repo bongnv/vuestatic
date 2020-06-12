@@ -43,8 +43,10 @@ class MarkdownVueStaticPlugin {
           plugins: [require("@bongnv/markdown-images-plugin")],
         });
 
-      webpackConfig.resolve.alias
-        .set("@vuestatic/static-props", path.resolve(__dirname, "vue-app/static-props.js"));
+      webpackConfig.resolve.alias.set(
+        "@vuestatic/static-props",
+        path.resolve(__dirname, "vue-app/static-props.js"),
+      );
 
       webpackConfig.resolve.modules.add(path.resolve(__dirname, "vue-app"));
 
@@ -53,7 +55,7 @@ class MarkdownVueStaticPlugin {
         path.join(config.baseDir, "content"),
       );
 
-      this.configImagesLoader(webpackConfig, config, isDevCommand)
+      this.configImagesLoader(webpackConfig, config, isDevCommand);
     });
   }
 

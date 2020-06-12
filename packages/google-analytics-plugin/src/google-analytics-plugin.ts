@@ -23,7 +23,7 @@ class GoogleAnalyticsPlugin {
           __GOOGLE_ANALYTICS_ID__: JSON.stringify(this.GA),
         }),
       );
-    })
+    });
   }
 }
 

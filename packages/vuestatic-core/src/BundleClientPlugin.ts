@@ -10,7 +10,7 @@ import webpackAsync from "./webpackAsync";
 const PLUGIN_NAME = "BundleClientPlugin";
 
 export class BundleClientPlugin {
-  setupExecute(executeHook: Hook) {
+  setupExecute(executeHook: Hook): void {
     executeHook.tapPromise(PLUGIN_NAME, async ({ config }: Execution) => {
       const clientResult = await webpackAsync(
         config.clientWebpackConfig.toConfig(),
@@ -19,7 +19,7 @@ export class BundleClientPlugin {
     });
   }
 
-  setupConfig(configHook: Hook) {
+  setupConfig(configHook: Hook): void {
     configHook.tap(PLUGIN_NAME, ({ config }: Execution) => {
       const { isProd, coreVueApp } = config;
 
@@ -52,6 +52,11 @@ export class BundleClientPlugin {
           plugins: config.clientPlugins,
         });
 
+      webpackConfig.resolve.alias.set(
+        "@vuestatic/applyClientPlugins",
+        path.join(coreVueApp, "applyClientPlugins.js"),
+      );
+
       webpackConfig.plugin("vue-ssr-client").use(new VueSSRClientPlugin());
 
       config.clientWebpackConfig = webpackConfig;
@@ -65,12 +70,16 @@ export class BundleClientPlugin {
   apply({ commands, steps }: Execution): void {
     this.setupConfig(steps.for("config"));
 
-    commands.for("build").tapPromise(PLUGIN_NAME, async ({ steps }: Execution) => {
-      this.setupExecute(steps.for("execute"));
-    });
+    commands
+      .for("build")
+      .tapPromise(PLUGIN_NAME, async ({ steps }: Execution) => {
+        this.setupExecute(steps.for("execute"));
+      });
 
-    commands.for("analyze").tapPromise(PLUGIN_NAME, async ({ steps }: Execution) => {
-      this.setupExecute(steps.for("execute"));
-    });
+    commands
+      .for("analyze")
+      .tapPromise(PLUGIN_NAME, async ({ steps }: Execution) => {
+        this.setupExecute(steps.for("execute"));
+      });
   }
 }

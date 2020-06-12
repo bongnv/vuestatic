@@ -1,4 +1,4 @@
-module.exports = applyClientPlugins = (options) => {
+const applyClientPlugins = (options) => {
   const plugins = options.plugins || [];
   const applyPlugins = plugins
     .map((plugin) => `require("${plugin}")["default"](props);`)
@@ -14,3 +14,5 @@ module.exports = applyClientPlugins = (options) => {
     code,
   };
 };
+
+module.exports = applyClientPlugins;

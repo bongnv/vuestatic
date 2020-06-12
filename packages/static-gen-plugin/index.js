@@ -101,7 +101,7 @@ class StaticGenPlugin {
         for (let url of this.paths) {
           await this.renderPage(renderer, url);
         }
-      })
+      });
     });
   }
 }

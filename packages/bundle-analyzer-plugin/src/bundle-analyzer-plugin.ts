@@ -3,23 +3,30 @@ import { BundleAnalyzerPlugin as WebpackBundleAnalyzer } from "webpack-bundle-an
 import type { Execution } from "@bongnv/vuestatic-core";
 
 class BundleAnalyzerPlugin {
-  apply({ commands }: Execution) {
+  apply({ commands }: Execution): void {
     const pluginName = "BundleAnalyzerPlugin";
-    commands.for("analyze").tap(pluginName, ({ steps }) => {
-      steps.for("execute").tapAsync(pluginName, ({ config }: Execution, callback: Function) => {
+    commands.for("analyze").tap(pluginName, ({ steps }: Execution) => {
+      steps.for("config").tap(pluginName, ({ config }) => {
         config.clientWebpackConfig
-        .plugin("bundle-analyzer")
-        .use(new WebpackBundleAnalyzer());
+          .plugin("bundle-analyzer")
+          .use(new WebpackBundleAnalyzer());
+      });
 
-        webpack(config.clientWebpackConfig.toConfig(), (err, stats) => {
-          if (err) {
-            callback(err);
-          }
+      steps
+        .for("execute")
+        .tapAsync(
+          pluginName,
+          ({ config }: Execution, callback: (err?: Error) => void) => {
+            webpack(config.clientWebpackConfig.toConfig(), (err, stats) => {
+              if (err) {
+                callback(err);
+              }
 
-          console.log(stats.toString());
-          callback();
-        });
-      })
+              console.log(stats.toString());
+              callback();
+            });
+          },
+        );
     });
   }
 }

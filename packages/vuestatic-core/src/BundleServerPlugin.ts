@@ -7,7 +7,7 @@ import webpackAsync from "./webpackAsync";
 import { Execution, ExecutionConfig } from "./Execution";
 
 export class BundleServerPlugin {
-  injectWebpackConfig(config: ExecutionConfig) {
+  injectWebpackConfig(config: ExecutionConfig): void {
     const webpackConfig = new Config();
 
     applyBaseConfig(config, webpackConfig);
@@ -43,20 +43,22 @@ export class BundleServerPlugin {
     commands.for("build").tap(pluginName, ({ steps }: Execution) => {
       steps.for("config").tap(pluginName, ({ config }: Execution) => {
         this.injectWebpackConfig(config);
-      })
+      });
 
-      steps.for("execute").tapPromise(pluginName, async ({ config } : Execution) => {
-        const serverResult = await webpackAsync(
-          config.serverWebpackConfig.toConfig(),
-        );
-        console.log(serverResult.toString());
-      })
+      steps
+        .for("execute")
+        .tapPromise(pluginName, async ({ config }: Execution) => {
+          const serverResult = await webpackAsync(
+            config.serverWebpackConfig.toConfig(),
+          );
+          console.log(serverResult.toString());
+        });
     });
 
     commands.for("dev").tap(pluginName, ({ steps }: Execution) => {
       steps.for("config").tap(pluginName, ({ config }: Execution) => {
         this.injectWebpackConfig(config);
-      })
+      });
     });
   }
 }
