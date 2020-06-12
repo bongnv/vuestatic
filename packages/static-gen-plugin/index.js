@@ -1,48 +1,9 @@
 const path = require("path");
 const fs = require("fs-extra");
 const minify = require("html-minifier").minify;
-const url = require("url");
+const { relativePathsFromHtml } = require("./utils");
 
-const relativePathsFromHtml = ({ html, currentPath }) => {
-  const cheerio = require("cheerio");
-  const $ = cheerio.load(html);
-
-  const linkHrefs = $("a[href]")
-    .map(function (i, el) {
-      return $(el).attr("href");
-    })
-    .get();
-
-  const iframeSrcs = $("iframe[src]")
-    .map(function (i, el) {
-      return $(el).attr("src");
-    })
-    .get();
-
-  return []
-    .concat(linkHrefs)
-    .concat(iframeSrcs)
-    .map(function (href) {
-      if (href.indexOf("//") === 0) {
-        return null;
-      }
-
-      var parsed = url.parse(href);
-
-      if (parsed.protocol || typeof parsed.path !== "string") {
-        return null;
-      }
-
-      return parsed.path.indexOf("/") === 0
-        ? parsed.path
-        : url.resolve(currentPath, parsed.path);
-    })
-    .filter(function (href) {
-      return href != null;
-    });
-};
-
-class BundleStaticPlugin {
+class StaticGenPlugin {
   constructor(options = {}) {
     this.clientManifestPath =
       options.clientManifestPath ||
@@ -125,25 +86,24 @@ class BundleStaticPlugin {
     }
   }
 
-  apply({ hooks }) {
+  apply({ commands }) {
     const pluginName = "BundleStaticPlugin";
 
-    hooks["post-config"].tap(pluginName, ({ config }) => {
-      this.serverBundlePath = path.join(
-        config.serverPath,
-        "vue-ssr-server-bundle.json",
-      );
-      this.staticPropsFile = path.join(config.serverPath, "static-props.js");
-    });
+    commands.for("build").tap(pluginName, ({ steps }) => {
+      steps.execute.tapPromise(pluginName, async ({ config }) => {
+        this.serverBundlePath = path.join(
+          config.serverPath,
+          "vue-ssr-server-bundle.json",
+        );
+        this.staticPropsFile = path.join(config.serverPath, "static-props.js");
 
-    hooks["build"] &&
-      hooks["build"].tapPromise(pluginName, async ({ config }) => {
         const renderer = await this.createRenderer(config);
         for (let url of this.paths) {
           await this.renderPage(renderer, url);
         }
-      });
+      })
+    });
   }
 }
 
-module.exports = BundleStaticPlugin;
+module.exports = StaticGenPlugin;

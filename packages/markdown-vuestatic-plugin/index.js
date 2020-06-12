@@ -1,12 +1,38 @@
+const PLUGIN_NAME = "MarkdownVueStaticPlugin";
+const path = require("path");
+
 class MarkdownVueStaticPlugin {
-  apply({ hooks }) {
-    const path = require("path");
+  configImagesLoader(webpackConfig, config, isDevCommand) {
+    const { isProd, serverPath, outputDir } = config;
 
-    const pluginName = "MarkdownVueStaticPlugin";
+    const imagesDir = path.join(
+      isDevCommand ? "static" : path.relative(serverPath, outputDir),
+      "_assets/images",
+    );
+    webpackConfig.module
+      .rule("compile-images")
+      .test(/\.(jpg|jpeg|png|svg|webp|gif|ico)$/)
+      .use("image-trace-loader")
+      .loader("image-trace-loader")
+      .end()
+      .use("file-loader")
+      .loader("file-loader")
+      .options({
+        name: isProd ? "[contenthash].[ext]" : "[name].[ext]",
+        outputPath: imagesDir,
+        publicPath: "/_assets/images",
+      })
+      .end()
+      .use("image-webpack-loader")
+      .loader("image-webpack-loader")
+      .options({
+        disable: !isProd,
+      });
+  }
 
-    hooks.config.tap(pluginName, ({ config }) => {
+  setupConfig(configHook, isDevCommand) {
+    configHook.tap(PLUGIN_NAME, ({ config }) => {
       const webpackConfig = config.serverWebpackConfig;
-      const { isProd, isWatch, baseDir, serverPath, outputDir } = config;
 
       webpackConfig.module
         .rule("compile-md")
@@ -17,36 +43,27 @@ class MarkdownVueStaticPlugin {
           plugins: [require("@bongnv/markdown-images-plugin")],
         });
 
-      const imagesDir = path.join(
-        isWatch ? "static" : path.relative(serverPath, outputDir),
-        "_assets/images",
-      );
-      webpackConfig.module
-        .rule("compile-images")
-        .test(/\.(jpg|jpeg|png|svg|webp|gif|ico)$/)
-        .use("image-trace-loader")
-        .loader("image-trace-loader")
-        .end()
-        .use("file-loader")
-        .loader("file-loader")
-        .options({
-          name: isProd ? "[contenthash].[ext]" : "[name].[ext]",
-          outputPath: imagesDir,
-          publicPath: "/_assets/images",
-        })
-        .end()
-        .use("image-webpack-loader")
-        .loader("image-webpack-loader")
-        .options({
-          disable: !isProd,
-        });
+      webpackConfig.resolve.alias
+        .set("@vuestatic/static-props", path.resolve(__dirname, "vue-app/static-props.js"));
 
       webpackConfig.resolve.modules.add(path.resolve(__dirname, "vue-app"));
 
       webpackConfig.resolve.alias.set(
         "@content",
-        path.join(baseDir, "content"),
+        path.join(config.baseDir, "content"),
       );
+
+      this.configImagesLoader(webpackConfig, config, isDevCommand)
+    });
+  }
+
+  apply({ commands }) {
+    commands.for("build").tap(PLUGIN_NAME, ({ steps }) => {
+      this.setupConfig(steps.config, false);
+    });
+
+    commands.for("dev").tap(PLUGIN_NAME, ({ steps }) => {
+      this.setupConfig(steps.config, true);
     });
   }
 }

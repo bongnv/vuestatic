@@ -4,6 +4,7 @@ import Config from "webpack-chain";
 import MiniCssExtractPlugin from "mini-css-extract-plugin";
 import { VueLoaderPlugin } from "vue-loader";
 import { CleanWebpackPlugin } from "clean-webpack-plugin";
+import { ExecutionConfig } from "./Execution";
 
 const applyBaseConfig = (
   { isProd, srcDir }: ExecutionConfig,

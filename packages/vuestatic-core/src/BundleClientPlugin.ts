@@ -1,17 +1,26 @@
 import path from "path";
 import Config from "webpack-chain";
+import type { Hook } from "tapable";
 import VueSSRClientPlugin from "vue-server-renderer/client-plugin";
+import { Execution } from "./Execution";
 
 import applyBaseConfig from "./applyBaseConfig";
 import webpackAsync from "./webpackAsync";
 
-class BundleClientPlugin {
-  apply({ hooks, config }: Execution): void {
-    const pluginName = "BundleClientPlugin";
+const PLUGIN_NAME = "BundleClientPlugin";
 
-    config.coreVueApp = path.resolve(__dirname, "../vue-app");
+export class BundleClientPlugin {
+  setupExecute(executeHook: Hook) {
+    executeHook.tapPromise(PLUGIN_NAME, async ({ config }: Execution) => {
+      const clientResult = await webpackAsync(
+        config.clientWebpackConfig.toConfig(),
+      );
+      console.log(clientResult.toString());
+    });
+  }
 
-    hooks["config"].tap(pluginName, ({ config }: Execution) => {
+  setupConfig(configHook: Hook) {
+    configHook.tap(PLUGIN_NAME, ({ config }: Execution) => {
       const { isProd, coreVueApp } = config;
 
       const webpackConfig = new Config();
@@ -51,15 +60,17 @@ class BundleClientPlugin {
         path.join(config.coreVueApp, "client-plugin.js"),
       );
     });
+  }
 
-    hooks["build"] &&
-      hooks["build"].tapPromise(pluginName, async ({ config }: Execution) => {
-        const clientResult = await webpackAsync(
-          config.clientWebpackConfig.toConfig(),
-        );
-        console.log(clientResult.toString());
-      });
+  apply({ commands, steps }: Execution): void {
+    this.setupConfig(steps.config);
+
+    commands.for("build").tapPromise(PLUGIN_NAME, async ({ steps }: Execution) => {
+      this.setupExecute(steps.execute);
+    });
+
+    commands.for("analyze").tapPromise(PLUGIN_NAME, async ({ steps }: Execution) => {
+      this.setupExecute(steps.execute);
+    });
   }
 }
-
-export = BundleClientPlugin;

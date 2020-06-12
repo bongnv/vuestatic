@@ -1,6 +1,6 @@
 import webpack from "webpack";
 
-const webpackAsync = (config: ExecutionConfig): Promise<webpack.Stats> => {
+const webpackAsync = (config: webpack.Configuration): Promise<webpack.Stats> => {
   return new Promise((resolve, reject) => {
     webpack(config, (err, stats) => {
       if (err) {

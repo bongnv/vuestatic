@@ -1,13 +1,9 @@
 class DevServerPlugin {
-  apply({ config, hooks }) {
-    if (!config.isWatch) {
-      console.log("Skip processing as this is not a development execution.");
-      return;
-    }
+  apply({ commands }) {
     const pluginName = "DevServerPlugin";
 
-    hooks["dev"] &&
-      hooks["dev"].tapAsync(pluginName, (execution, callback) => {
+    commands.for("dev").tap(pluginName, ({ steps }) => {
+      steps.execute.tapAsync(pluginName, (execution, callback) => {
         const path = require("path");
         const webpack = require("webpack");
         const devMiddleware = require("./staticDevMiddleware");
@@ -41,6 +37,7 @@ class DevServerPlugin {
           callback();
         });
       });
+    });
   }
 }
 
