@@ -1,9 +1,9 @@
 import path from "path";
 import Config from "webpack-chain";
 
-import { ExecutionConfig } from "./Execution";
+import { NormalizedConfig } from "./Execution";
 
-export const defaultExecutionConfig = (): ExecutionConfig => {
+export const defaultExecutionConfig = (): NormalizedConfig => {
   const baseDir = path.resolve(process.cwd());
   const outputDir = path.join(baseDir, "dist");
   const serverPath = path.join(baseDir, ".vuestatic", "server");
@@ -22,5 +22,5 @@ export const defaultExecutionConfig = (): ExecutionConfig => {
     plugins: [],
     clientWebpackConfig: new Config(),
     serverWebpackConfig: new Config(),
-  }
-}
+  };
+};

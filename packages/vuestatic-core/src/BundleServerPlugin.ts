@@ -5,10 +5,10 @@ import VueServerBundlePlugin from "@bongnv/vue-ssr-server-webpack-plugin";
 
 import applyBaseConfig from "./applyBaseConfig";
 import webpackAsync from "./webpackAsync";
-import { Execution, ExecutionConfig } from "./Execution";
+import { Execution, NormalizedConfig } from "./Execution";
 
 export class BundleServerPlugin {
-  injectWebpackConfig(config: ExecutionConfig): void {
+  injectWebpackConfig(config: NormalizedConfig): void {
     const webpackConfig = new Config();
 
     applyBaseConfig(config, webpackConfig);

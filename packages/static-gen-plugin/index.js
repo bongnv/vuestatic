@@ -55,7 +55,7 @@ class StaticGenPlugin {
     const filePath = path.join(url, "index.html").slice(1);
     if (renderer.rendered[filePath]) return;
 
-    console.log("Rendering", url.slice(1));
+    console.log("Rendering", url);
     renderer.rendered[filePath] = true;
     const { html, pageData } = await renderer.render(url);
     const htmlFile = path.resolve(this.outputPath, filePath);
@@ -87,7 +87,7 @@ class StaticGenPlugin {
   }
 
   apply({ commands }) {
-    const pluginName = "BundleStaticPlugin";
+    const pluginName = "StaticGenPlugin";
 
     commands.for("build").tap(pluginName, ({ steps }) => {
       steps.for("execute").tapPromise(pluginName, async ({ config }) => {
