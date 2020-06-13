@@ -1,6 +1,6 @@
 {
   "name": "@bongnv/vuestatic",
-  "version": "0.8.0",
+  "version": "0.8.1",
   "description": "Another Vue static site generator",
   "main": "lib/index.js",
   "bin": {
@@ -18,11 +18,11 @@
     "lint": "eslint --fix --ext=js,jsx,ts --cache ."
   },
   "dependencies": {
-    "@bongnv/bundle-analyzer-plugin": "^0.1.2",
-    "@bongnv/dev-server-plugin": "^0.4.2",
-    "@bongnv/markdown-vuestatic-plugin": "^0.2.2",
-    "@bongnv/static-gen-plugin": "^0.4.3",
-    "@bongnv/vuestatic-core": "^0.1.0",
+    "@bongnv/bundle-analyzer-plugin": "^0.1.3",
+    "@bongnv/dev-server-plugin": "^0.4.3",
+    "@bongnv/markdown-vuestatic-plugin": "^0.2.3",
+    "@bongnv/static-gen-plugin": "^0.4.4",
+    "@bongnv/vuestatic-core": "^0.1.1",
     "cac": "^6.5.10",
     "fs-extra": "^9.0.1",
     "vue": "^2.6.11",

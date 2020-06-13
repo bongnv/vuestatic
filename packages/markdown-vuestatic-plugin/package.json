@@ -1,6 +1,6 @@
 {
   "name": "@bongnv/markdown-vuestatic-plugin",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "A Markdown plugin for vuestatic",
   "main": "index.js",
   "author": "Bong Nguyen",

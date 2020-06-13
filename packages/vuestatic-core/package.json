@@ -1,6 +1,6 @@
 {
   "name": "@bongnv/vuestatic-core",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "A VueStatic plugin for core logic. It provides clientWebpackConfig & serverWebpackConfig.",
   "author": "Bong Nguyen <van.bong@grabtaxi.com>",
   "homepage": "https://github.com/bongnv/vuestatic#readme",
@@ -35,7 +35,7 @@
   },
   "dependencies": {
     "@babel/core": "^7.10.2",
-    "@bongnv/vue-ssr-server-webpack-plugin": "^0.3.1",
+    "@bongnv/vue-ssr-server-webpack-plugin": "^0.3.2",
     "babel-loader": "^8.1.0",
     "clean-webpack-plugin": "^3.0.0",
     "css-loader": "^3.5.3",

@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.4.4](https://github.com/bongnv/vuestatic/compare/@bongnv/static-gen-plugin@0.4.3...@bongnv/static-gen-plugin@0.4.4) (2020-06-13)
+
+**Note:** Version bump only for package @bongnv/static-gen-plugin
+
+
+
+
+
 ## [0.4.3](https://github.com/bongnv/vuestatic/compare/@bongnv/static-gen-plugin@0.4.2...@bongnv/static-gen-plugin@0.4.3) (2020-06-12)
 
 

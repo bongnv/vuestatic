@@ -1,6 +1,6 @@
 {
   "name": "@bongnv/dev-server-plugin",
-  "version": "0.4.2",
+  "version": "0.4.3",
   "description": "A vuestatic plugin for development",
   "main": "index.js",
   "author": "Bong Nguyen",

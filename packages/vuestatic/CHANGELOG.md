@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.8.1](https://github.com/bongnv/vuestatic/compare/@bongnv/vuestatic@0.8.0...@bongnv/vuestatic@0.8.1) (2020-06-13)
+
+**Note:** Version bump only for package @bongnv/vuestatic
+
+
+
+
+
 <a name="0.8.0"></a>
 # [0.8.0](https://github.com/bongnv/vuestatic/compare/@bongnv/vuestatic@0.7.4...@bongnv/vuestatic@0.8.0) (2020-06-12)
 
