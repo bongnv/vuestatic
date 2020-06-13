@@ -1,4 +1,5 @@
 import path from "path";
+import webpack from "webpack";
 import type { Hook } from "tapable";
 import VueSSRClientPlugin from "vue-server-renderer/client-plugin";
 import { Execution } from "./Execution";
@@ -57,6 +58,12 @@ export class BundleClientPlugin {
       );
 
       webpackConfig.plugin("vue-ssr-client").use(new VueSSRClientPlugin());
+
+      webpackConfig.plugin("define-vue").use(
+        new webpack.DefinePlugin({
+          "process.env.VUE_ENV": '"client"',
+        }),
+      );
 
       config.clientWebpackConfig = webpackConfig;
 

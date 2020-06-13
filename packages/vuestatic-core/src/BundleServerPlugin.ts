@@ -1,4 +1,5 @@
 import path from "path";
+import webpack from "webpack";
 import nodeExternals from "webpack-node-externals";
 import VueServerBundlePlugin from "@bongnv/vue-ssr-server-webpack-plugin";
 
@@ -37,6 +38,12 @@ export class BundleServerPlugin {
       nodeExternals({
         // do not externalize CSS files in case we need to import it from a dep
         whitelist: /\.css$/,
+      }),
+    );
+
+    webpackConfig.plugin("define-vue").use(
+      new webpack.DefinePlugin({
+        "process.env.VUE_ENV": '"server"',
       }),
     );
 
