@@ -1,10 +1,10 @@
-import { ExecutionConfig } from "./Execution";
+import { ExecutionConfig, NormalizedConfig } from "./Execution";
 
 export const mergeConfig = (
-  targetConfig: ExecutionConfig,
-  sourceConfig: Record<string, any>,
-): ExecutionConfig => {
-  const plugins = targetConfig.plugins.concat(sourceConfig.plugins);
+  targetConfig: NormalizedConfig,
+  sourceConfig: ExecutionConfig,
+): NormalizedConfig => {
+  const plugins = targetConfig.plugins.concat(sourceConfig.plugins || []);
   targetConfig = Object.assign(targetConfig, sourceConfig, {
     plugins,
   });

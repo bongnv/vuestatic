@@ -1,27 +1,8 @@
+const baseConfig = require("../../.eslintrc.js");
 module.exports = {
-  env: {
-    browser: true,
-    es6: true,
-    node: true,
-  },
-  extends: [
-    "eslint:recommended",
-    "plugin:@typescript-eslint/recommended",
-    "plugin:prettier/recommended",
-  ],
+  ...baseConfig,
+  extends: [...baseConfig.extends, "plugin:@typescript-eslint/recommended"],
   parser: "@typescript-eslint/parser",
-  parserOptions: {
-    ecmaVersion: 2018,
-    sourceType: "module",
-  },
-  overrides: [
-    {
-      files: ["*.js"],
-      rules: {
-        "@typescript-eslint/explicit-module-boundary-types": "off",
-      },
-    },
-  ],
-  plugins: ["prettier", "@typescript-eslint"],
+  plugins: [...baseConfig.plugins, "@typescript-eslint"],
   ignorePatterns: ["/lib/", "__tests__"],
 };

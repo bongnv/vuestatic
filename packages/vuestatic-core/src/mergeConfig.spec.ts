@@ -8,13 +8,12 @@ import { BundleServerPlugin } from "./BundleServerPlugin";
 test("mergeConfig should merge configuration", () => {
   const targetConfig = defaultExecutionConfig();
 
-  const result = mergeConfig(targetConfig, {
-  })
+  const result = mergeConfig(targetConfig, {});
 
   const expectedBaseDir = path.resolve(__dirname, "..");
   expect(targetConfig).toEqual(result);
   expect(result.baseDir).toEqual(expectedBaseDir);
-})
+});
 
 test("mergeConfig should merge plugins", () => {
   const targetConfig = defaultExecutionConfig();
@@ -22,10 +21,10 @@ test("mergeConfig should merge plugins", () => {
 
   const result = mergeConfig(targetConfig, {
     plugins: [new BundleServerPlugin()],
-  })
+  });
 
   const expectedBaseDir = path.resolve(__dirname, "..");
   expect(targetConfig).toEqual(result);
   expect(result.baseDir).toEqual(expectedBaseDir);
   expect(result.plugins).toHaveLength(2);
-})
+});
