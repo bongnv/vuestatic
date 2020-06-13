@@ -54,7 +54,9 @@ const applyBaseConfig = (
     .plugin("clean")
     .use(new CleanWebpackPlugin({ cleanStaleWebpackAssets: false }));
 
-  webpackConfig.plugin("define").use(
+  webpackConfig.node.set("setImmediate", false);
+
+  webpackConfig.plugin("define-mode").use(
     new webpack.DefinePlugin({
       "process.env.NODE_ENV": isProd ? '"production"' : '"development"',
     }),
