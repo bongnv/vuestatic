@@ -2,7 +2,7 @@ import Vue from "vue";
 
 import applyClientPlugins from "@vuestatic/applyClientPlugins";
 
-import { createApp } from "app";
+import { createApp } from "@vuestatic/app";
 
 const { app, router } = createApp();
 

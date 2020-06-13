@@ -1,5 +1,4 @@
 import path from "path";
-import Config from "webpack-chain";
 import nodeExternals from "webpack-node-externals";
 import VueServerBundlePlugin from "@bongnv/vue-ssr-server-webpack-plugin";
 
@@ -9,7 +8,7 @@ import { Execution, NormalizedConfig } from "./Execution";
 
 export class BundleServerPlugin {
   injectWebpackConfig(config: NormalizedConfig): void {
-    const webpackConfig = new Config();
+    const webpackConfig = config.serverWebpackConfig;
 
     applyBaseConfig(config, webpackConfig);
 

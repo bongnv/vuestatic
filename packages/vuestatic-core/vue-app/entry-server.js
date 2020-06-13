@@ -1,6 +1,6 @@
 import path from "path";
 
-import { createApp } from "app";
+import { createApp } from "@vuestatic/app";
 
 const pushURL = (router, url) => {
   return new Promise((resolve, reject) => {
