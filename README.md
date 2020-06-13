@@ -21,7 +21,14 @@ $ yarn vuestatic dev
 $ yarn vuestatic build
 ```
 
-
 ## More information
 
 TODO
+
+## Contribution
+
+```shell
+yarn install # install all dependencies
+touch some_files # start making changes
+yarn test # make sure your code change pass the test
+```
