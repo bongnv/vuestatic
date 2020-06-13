@@ -34,7 +34,10 @@ const applyBaseConfig = (
     .loader("postcss-loader")
     .end();
 
-  webpackConfig.resolve.modules.add(srcDir).add("node_modules");
+  webpackConfig.resolve.alias.set(
+    "@vuestatic/app",
+    path.join(srcDir, "app.js"),
+  );
 
   webpackConfig.plugin("vue-loader").use(new VueLoaderPlugin());
 

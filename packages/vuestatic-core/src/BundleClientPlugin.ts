@@ -1,5 +1,4 @@
 import path from "path";
-import Config from "webpack-chain";
 import type { Hook } from "tapable";
 import VueSSRClientPlugin from "vue-server-renderer/client-plugin";
 import { Execution } from "./Execution";
@@ -23,7 +22,7 @@ export class BundleClientPlugin {
     configHook.tap(PLUGIN_NAME, ({ config }: Execution) => {
       const { isProd, coreVueApp } = config;
 
-      const webpackConfig = new Config();
+      const webpackConfig = config.clientWebpackConfig;
 
       applyBaseConfig(config, webpackConfig);
 

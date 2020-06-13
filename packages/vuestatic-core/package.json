@@ -59,8 +59,5 @@
     "@types/webpack-node-externals": "^1.7.1",
     "jest": "^26.0.1",
     "ts-jest": "^26.1.0"
-  },
-  "peerDependencies": {
-    "vue-router": "^3.3.2"
   }
 }
