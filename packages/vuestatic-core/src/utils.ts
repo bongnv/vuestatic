@@ -1,14 +1,17 @@
 import path from "path";
 import Config from "webpack-chain";
 
-import { NormalizedConfig } from "./Execution";
+import type { NormalizedConfig, ExecutionConfig } from "./Execution";
 
-export const defaultExecutionConfig = (): NormalizedConfig => {
-  const baseDir = path.resolve(process.cwd());
-  const outputDir = path.join(baseDir, "dist");
-  const serverPath = path.join(baseDir, ".vuestatic", "server");
-  const srcDir = path.join(baseDir, "src");
-  const coreVueApp = path.resolve(__dirname, "../vue-app");
+export const defaultExecutionConfig = (
+  rawConfig: ExecutionConfig = {},
+): NormalizedConfig => {
+  const baseDir = rawConfig.baseDir || path.resolve(process.cwd());
+  const outputDir = rawConfig.outputDir || path.join(baseDir, "dist");
+  const serverPath =
+    rawConfig.serverPath || path.join(baseDir, ".vuestatic", "server");
+  const srcDir = rawConfig.srcDir || path.join(baseDir, "src");
+  const plugins = rawConfig.plugins || [];
 
   return {
     isProd: false,
@@ -17,9 +20,8 @@ export const defaultExecutionConfig = (): NormalizedConfig => {
     publicPath: "/",
     serverPath,
     srcDir,
-    coreVueApp,
     clientPlugins: [],
-    plugins: [],
+    plugins: plugins,
     clientWebpackConfig: new Config(),
     serverWebpackConfig: new Config(),
   };

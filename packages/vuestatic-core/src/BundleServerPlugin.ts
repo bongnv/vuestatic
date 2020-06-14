@@ -10,6 +10,7 @@ import { Execution, NormalizedConfig } from "./Execution";
 export class BundleServerPlugin {
   injectWebpackConfig(config: NormalizedConfig): void {
     const webpackConfig = config.serverWebpackConfig;
+    const coreVueApp = path.resolve(__dirname, "../vue-app");
 
     applyBaseConfig(config, webpackConfig);
 
@@ -19,7 +20,7 @@ export class BundleServerPlugin {
       .add("@vuestatic/static-props")
       .end()
       .entry("app")
-      .add(path.join(config.coreVueApp, "entry-server.js"))
+      .add(path.join(coreVueApp, "entry-server.js"))
       .end();
 
     webpackConfig.output

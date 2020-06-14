@@ -12,3 +12,11 @@ test("applyBaseConfig should configure basic configuration", () => {
   expect(serializedConfig.mode).toBe("development");
   expect(serializedConfig.module?.rules).toHaveLength(2);
 });
+
+test("applyBaseConfig should match snapshot", () => {
+  const webpackConfig = new Config();
+  const config = defaultExecutionConfig();
+  applyBaseConfig(config, webpackConfig);
+  const serializedConfig = webpackConfig.toConfig();
+  expect(serializedConfig).toMatchSnapshot();
+});
