@@ -17,7 +17,7 @@ Object {
         "test": /\\\\\\.css\\$/,
         "use": Array [
           Object {
-            "loader": "/Users/van.bong/projects/vuestatic/node_modules/mini-css-extract-plugin/dist/loader.js",
+            "loader": "mini-css-extract-plugin-loader",
           },
           Object {
             "loader": "css-loader",
@@ -38,12 +38,9 @@ Object {
   "plugins": Array [
     VueLoaderPlugin {},
     MiniCssExtractPlugin {
-      "options": Object {
-        "chunkFilename": "_assets/[name].css",
-        "filename": "_assets/[name].css",
-        "ignoreOrder": false,
-        "moduleFilename": [Function],
-      },
+      "apply": [MockFunction],
+      "getCssChunkObject": [MockFunction],
+      "renderContentAsset": [MockFunction],
     },
     CleanWebpackPlugin {
       "apply": [Function],
@@ -71,7 +68,7 @@ Object {
   ],
   "resolve": Object {
     "alias": Object {
-      "@vuestatic/app": "/Users/van.bong/projects/vuestatic/packages/vuestatic-core/src/app.js",
+      "@vuestatic/app": "/src/app.js",
     },
   },
 }
