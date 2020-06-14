@@ -2,7 +2,7 @@
 
 import cac from "cac";
 import { Execution, ExecutionConfig } from "@bongnv/vuestatic-core";
-import MarkdownVueStaticPlugin from "@bongnv/markdown-vuestatic-plugin";
+import { MarkdownVueStaticPlugin } from "@bongnv/markdown-vuestatic-plugin";
 import DevServerPlugin from "@bongnv/dev-server-plugin";
 import StaticGenPlugin from "@bongnv/static-gen-plugin";
 import BundleAnalyzerPlugin from "@bongnv/bundle-analyzer-plugin";

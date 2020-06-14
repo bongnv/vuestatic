@@ -1,12 +1,17 @@
 const applyClientPlugins = (options) => {
   const plugins = options.plugins || [];
-  const applyPlugins = plugins
-    .map((plugin) => `require("${plugin}")["default"](props);`)
+  const importsCodes = plugins
+    .map((plugin, index) => `import plugin${index} from "${plugin}";`)
+    .join("\n");
+
+  const applyCode = plugins
+    .map((_, index) => `plugin${index}(props);`)
     .join("\n");
 
   const code = `
-  export default function applyPlugins(props) {
-    ${applyPlugins}
+  ${importsCodes}
+  export default function applyClientPlugins(props) {
+    ${applyCode}
   }`;
 
   return {

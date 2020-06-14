@@ -51,14 +51,14 @@ export class Execution {
     this.config = mergeConfig(defaultExecutionConfig(), rawConfig);
   }
 
-  _applyPlugins(): void {
+  private _applyPlugins(): void {
     const plugins = this.config.plugins || [];
     plugins.unshift(new BundleClientPlugin(), new BundleServerPlugin());
 
     _.compact(plugins).forEach((plugin) => plugin.apply(this));
   }
 
-  _initHooks(): void {
+  private _initHooks(): void {
     this.steps.for("config").intercept({
       tap: (tapInfo: Tap) => {
         console.log(`${tapInfo.name} is configuring...`);
@@ -72,7 +72,7 @@ export class Execution {
     });
   }
 
-  async _executeSteps(): Promise<void> {
+  private async _executeSteps(): Promise<void> {
     await this.steps.for("config").promise(this);
     await this.steps.for("execute").promise(this);
   }

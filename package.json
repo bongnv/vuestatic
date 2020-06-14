@@ -5,7 +5,8 @@
     "lint": "lerna run lint --stream",
     "build": "lerna run build --stream",
     "watch": "lerna run watch --stream --no-sort",
-    "test": "lerna run test --stream"
+    "test": "lerna run test --stream",
+    "test:updateSnapshot": "lerna run test:updateSnapshot --stream"
   },
   "devDependencies": {
     "lerna": "^3.22.1"

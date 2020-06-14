@@ -46,7 +46,7 @@ const setupHooks = (context) => {
       context.getProps = require(path.resolve(
         process.cwd(),
         ".vuestatic/server/static-props.js",
-      )).default;
+      ));
       const { callbacks } = context;
       context.ready = true;
       context.callbacks = [];
