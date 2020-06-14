@@ -4,7 +4,6 @@ import Config from "webpack-chain";
 
 import { BundleClientPlugin } from "./BundleClientPlugin";
 import { BundleServerPlugin } from "./BundleServerPlugin";
-import { mergeConfig } from "./mergeConfig";
 import { defaultExecutionConfig } from "./utils";
 
 interface Plugin {
@@ -19,7 +18,6 @@ export interface ExecutionConfig {
   publicPath?: string;
   serverPath?: string;
   srcDir?: string;
-  coreVueApp?: string;
   clientPlugins?: string[];
   clientWebpackConfig?: Config;
   serverWebpackConfig?: Config;
@@ -33,7 +31,6 @@ export interface NormalizedConfig {
   publicPath: string;
   serverPath: string;
   srcDir: string;
-  coreVueApp: string;
   clientPlugins: string[];
   clientWebpackConfig: Config;
   serverWebpackConfig: Config;
@@ -44,11 +41,11 @@ export class Execution {
   commands: HookMap;
   steps: HookMap;
 
-  constructor(rawConfig: ExecutionConfig) {
+  constructor(rawConfig?: ExecutionConfig) {
     const params = ["execution"];
     this.commands = new HookMap(() => new AsyncSeriesHook(params));
     this.steps = new HookMap(() => new AsyncSeriesHook(params));
-    this.config = mergeConfig(defaultExecutionConfig(), rawConfig);
+    this.config = defaultExecutionConfig(rawConfig);
   }
 
   private _applyPlugins(): void {

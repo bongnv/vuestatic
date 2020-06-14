@@ -26,7 +26,7 @@
     "tsc": "tsc",
     "watch": "tsc -w",
     "build": "npm run tsc",
-    "test": "jest",
+    "jest": "jest",
     "prepublishOnly": "npm run clean && npm run tsc",
     "lint": "eslint --fix --ext=js,jsx,ts --cache ."
   },

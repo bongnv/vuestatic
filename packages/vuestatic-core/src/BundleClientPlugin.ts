@@ -21,7 +21,8 @@ export class BundleClientPlugin {
 
   setupConfig(configHook: Hook): void {
     configHook.tap(PLUGIN_NAME, ({ config }: Execution) => {
-      const { isProd, coreVueApp } = config;
+      const { isProd } = config;
+      const coreVueApp = path.resolve(__dirname, "../vue-app");
 
       const webpackConfig = config.clientWebpackConfig;
 
@@ -45,7 +46,7 @@ export class BundleClientPlugin {
 
       webpackConfig.module
         .rule("compile-client-plugins")
-        .test(path.join(config.coreVueApp, "applyClientPlugins.js"))
+        .test(path.join(coreVueApp, "applyClientPlugins.js"))
         .use("val-loader")
         .loader("val-loader")
         .options({
@@ -67,9 +68,7 @@ export class BundleClientPlugin {
 
       config.clientWebpackConfig = webpackConfig;
 
-      config.clientPlugins.push(
-        path.join(config.coreVueApp, "client-plugin.js"),
-      );
+      config.clientPlugins.push(path.join(coreVueApp, "client-plugin.js"));
     });
   }
 
