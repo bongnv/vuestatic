@@ -17,7 +17,7 @@ class StaticGenPlugin {
 
   async createRenderer() {
     const { createBundleRenderer } = require("vue-server-renderer");
-    const genStaticProps = require(this.staticPropsFile).default;
+    const genStaticProps = require(this.staticPropsFile);
 
     const template = await fs.readFile(
       path.resolve(__dirname, "index.html"),

@@ -1,6 +1,7 @@
-import { ExecutionConfig } from "@bongnv/vuestatic-core";
 import path from "path";
 import { pathExists } from "fs-extra";
+
+import type { ExecutionConfig } from "@bongnv/vuestatic-core";
 
 const mergeConfig = (
   targetConfig: ExecutionConfig,

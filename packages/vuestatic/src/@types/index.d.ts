@@ -1,9 +1,3 @@
-declare module "@bongnv/markdown-vuestatic-plugin" {
-  class MarkdownVueStaticPlugin {}
-
-  export = MarkdownVueStaticPlugin;
-}
-
 declare module "@bongnv/dev-server-plugin" {
   class DevServerPlugin {}
   export = DevServerPlugin;

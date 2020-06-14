@@ -1,4 +1,5 @@
 import { pathExists } from "fs-extra";
+
 import { resolveConfig } from "./resolveConfig";
 
 jest.mock("fs-extra");

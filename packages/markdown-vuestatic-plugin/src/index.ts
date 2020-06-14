@@ -1,14 +1,23 @@
-const PLUGIN_NAME = "MarkdownVueStaticPlugin";
-const path = require("path");
+import path from "path";
+import type { Hook } from "tapable";
+import type Config from "webpack-chain";
+import type { NormalizedConfig, Execution } from "@bongnv/vuestatic-core";
 
-class MarkdownVueStaticPlugin {
-  configImagesLoader(webpackConfig, config, isDevCommand) {
+const PLUGIN_NAME = "MarkdownVueStaticPlugin";
+
+export class MarkdownVueStaticPlugin {
+  private _configImagesLoader(
+    webpackConfig: Config,
+    config: NormalizedConfig,
+    isDevCommand: boolean,
+  ): void {
     const { isProd, serverPath, outputDir } = config;
 
     const imagesDir = path.join(
       isDevCommand ? "static" : path.relative(serverPath, outputDir),
       "_assets/images",
     );
+
     webpackConfig.module
       .rule("compile-images")
       .test(/\.(jpg|jpeg|png|svg|webp|gif|ico)$/)
@@ -30,9 +39,10 @@ class MarkdownVueStaticPlugin {
       });
   }
 
-  setupConfig(configHook, isDevCommand) {
+  private _setupConfig(configHook: Hook, isDevCommand: boolean): void {
     configHook.tap(PLUGIN_NAME, ({ config }) => {
       const webpackConfig = config.serverWebpackConfig;
+      const vueAppDir = path.resolve(__dirname, "../vue-app");
 
       webpackConfig.module
         .rule("compile-md")
@@ -45,29 +55,34 @@ class MarkdownVueStaticPlugin {
 
       webpackConfig.resolve.alias.set(
         "@vuestatic/static-props",
-        path.resolve(__dirname, "vue-app/static-props.js"),
+        path.join(vueAppDir, "static-props.js"),
       );
-
-      webpackConfig.resolve.modules.add(path.resolve(__dirname, "vue-app"));
 
       webpackConfig.resolve.alias.set(
         "@content",
         path.join(config.baseDir, "content"),
       );
 
-      this.configImagesLoader(webpackConfig, config, isDevCommand);
+      webpackConfig.module
+        .rule("compile-props-transformers")
+        .test(path.join(vueAppDir, "applyTransformers.js"))
+        .use("val-loader")
+        .loader("val-loader")
+        .options({
+          transformers: [path.join(vueAppDir, "blogIndex.js")],
+        });
+
+      this._configImagesLoader(webpackConfig, config, isDevCommand);
     });
   }
 
-  apply({ commands }) {
-    commands.for("build").tap(PLUGIN_NAME, ({ steps }) => {
-      this.setupConfig(steps.for("config"), false);
+  apply({ commands }: Execution): void {
+    commands.for("build").tap(PLUGIN_NAME, ({ steps }: Execution) => {
+      this._setupConfig(steps.for("config"), false);
     });
 
-    commands.for("dev").tap(PLUGIN_NAME, ({ steps }) => {
-      this.setupConfig(steps.for("config"), true);
+    commands.for("dev").tap(PLUGIN_NAME, ({ steps }: Execution) => {
+      this._setupConfig(steps.for("config"), true);
     });
   }
 }
-
-module.exports = MarkdownVueStaticPlugin;
