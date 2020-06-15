@@ -1,6 +1,8 @@
 import path from "path";
 
 import { createApp } from "@vuestatic/app";
+import { staticProps } from "@vuestatic/static-props";
+import { asyncRouterProps } from "./async-router-props";
 
 const pushURL = (router, url) => {
   return new Promise((resolve, reject) => {
@@ -16,7 +18,8 @@ export default async (context) => {
   }
 
   context.meta = app.$meta();
-  context.pageDataPath = path.join(context.url, "pageProps.json");
-  route.matched[0].props["default"] = context.pageData;
+  context.pagePropsPath = path.join(context.url, "pageProps.json");
+  context.pageProps = await staticProps(route);
+  await asyncRouterProps(route);
   return app;
 };

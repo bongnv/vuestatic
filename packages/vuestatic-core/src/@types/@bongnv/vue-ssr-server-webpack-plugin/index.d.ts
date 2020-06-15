@@ -6,7 +6,7 @@ declare module "@bongnv/vue-ssr-server-webpack-plugin" {
   }
 
   class VueSSRServerPlugin extends Plugin {
-    constructor(config: PluginConfig);
+    constructor(config?: PluginConfig);
   }
 
   export = VueSSRServerPlugin;

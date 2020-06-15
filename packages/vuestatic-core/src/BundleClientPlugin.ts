@@ -58,6 +58,11 @@ export class BundleClientPlugin {
         path.join(coreVueApp, "applyClientPlugins.js"),
       );
 
+      webpackConfig.resolve.alias.set(
+        "@vuestatic/static-props",
+        path.join(coreVueApp, "static-props-client.js"),
+      );
+
       webpackConfig.plugin("vue-ssr-client").use(new VueSSRClientPlugin());
 
       webpackConfig.plugin("define-vue").use(

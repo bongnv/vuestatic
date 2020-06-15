@@ -32,6 +32,7 @@ export interface NormalizedConfig {
   serverPath: string;
   srcDir: string;
   clientPlugins: string[];
+  propsHandlers: string[];
   clientWebpackConfig: Config;
   serverWebpackConfig: Config;
 }

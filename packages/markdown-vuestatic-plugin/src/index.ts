@@ -42,7 +42,6 @@ export class MarkdownVueStaticPlugin {
   private _setupConfig(configHook: Hook, isDevCommand: boolean): void {
     configHook.tap(PLUGIN_NAME, ({ config }) => {
       const webpackConfig = config.serverWebpackConfig;
-      const vueAppDir = path.resolve(__dirname, "../vue-app");
 
       webpackConfig.module
         .rule("compile-md")
@@ -54,29 +53,19 @@ export class MarkdownVueStaticPlugin {
         });
 
       webpackConfig.resolve.alias.set(
-        "@vuestatic/static-props",
-        path.join(vueAppDir, "static-props.js"),
-      );
-
-      webpackConfig.resolve.alias.set(
         "@content",
         path.join(config.baseDir, "content"),
       );
-
-      webpackConfig.module
-        .rule("compile-props-transformers")
-        .test(path.join(vueAppDir, "applyTransformers.js"))
-        .use("val-loader")
-        .loader("val-loader")
-        .options({
-          transformers: [path.join(vueAppDir, "blogIndex.js")],
-        });
 
       this._configImagesLoader(webpackConfig, config, isDevCommand);
     });
   }
 
-  apply({ commands }: Execution): void {
+  apply({ commands, config }: Execution): void {
+    const vueAppDir = path.resolve(__dirname, "../vue-app");
+
+    config.propsHandlers.push(path.join(vueAppDir, "props-handler.js"));
+
     commands.for("build").tap(PLUGIN_NAME, ({ steps }: Execution) => {
       this._setupConfig(steps.for("config"), false);
     });

@@ -1,5 +1,5 @@
 import { PrefetchLink } from "./prefetch-link";
-import { join } from "./join";
+import { asyncRouterProps } from "./async-router-props";
 
 const handleRouteChange = () => {
   const lazyImages = [].slice.call(document.querySelectorAll("img.lazy"));
@@ -31,17 +31,17 @@ const handleRouteChange = () => {
 export default function ({ Vue, router }) {
   Vue.use(PrefetchLink);
 
+  router.beforeResolve((to, from, next) =>
+    asyncRouterProps(to)
+      .then(() => next())
+      .catch((err) => {
+        console.error(err);
+        next(false);
+      }),
+  );
+
   router.beforeResolve((to, from, next) => {
-    const pageDataURL = join(to.path, "pageProps.json");
-    fetch(pageDataURL)
-      .then((response) => response.json())
-      .then((pageData) => {
-        if (to.matched.length > 0) {
-          to.matched[0].props["default"] = pageData;
-        }
-        next();
-        Vue.nextTick(handleRouteChange);
-      })
-      .catch(next);
+    next();
+    Vue.nextTick(handleRouteChange);
   });
 }

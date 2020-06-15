@@ -17,7 +17,6 @@ class StaticGenPlugin {
 
   async createRenderer() {
     const { createBundleRenderer } = require("vue-server-renderer");
-    const genStaticProps = require(this.staticPropsFile);
 
     const template = await fs.readFile(
       path.resolve(__dirname, "index.html"),
@@ -33,16 +32,14 @@ class StaticGenPlugin {
     });
 
     const render = async (url) => {
-      const pageData = await genStaticProps(url);
       const context = {
         url,
-        pageData,
       };
       const html = minify(
         await renderer.renderToString(context),
         this.htmlMinifierOptions,
       );
-      return { html, pageData };
+      return { html, pageProps: context.pageProps };
     };
 
     return {
@@ -57,13 +54,13 @@ class StaticGenPlugin {
 
     console.log("Rendering", url);
     renderer.rendered[filePath] = true;
-    const { html, pageData } = await renderer.render(url);
+    const { html, pageProps } = await renderer.render(url);
     const htmlFile = path.resolve(this.outputPath, filePath);
     console.log("Writing", htmlFile);
     await fs.ensureFile(htmlFile);
     await fs.writeFile(htmlFile, html);
-    if (pageData) {
-      const staticProps = JSON.stringify(pageData);
+    if (pageProps) {
+      const staticProps = JSON.stringify(pageProps);
       const propsFile = path.resolve(
         this.outputPath,
         url.slice(1),
@@ -95,7 +92,6 @@ class StaticGenPlugin {
           config.serverPath,
           "vue-ssr-server-bundle.json",
         );
-        this.staticPropsFile = path.join(config.serverPath, "static-props.js");
 
         const renderer = await this.createRenderer(config);
         for (let url of this.paths) {
