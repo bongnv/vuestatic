@@ -21,6 +21,7 @@ export const defaultExecutionConfig = (
     serverPath,
     srcDir,
     clientPlugins: [],
+    propsHandlers: [],
     plugins: plugins,
     clientWebpackConfig: new Config(),
     serverWebpackConfig: new Config(),

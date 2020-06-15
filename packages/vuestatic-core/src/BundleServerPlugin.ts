@@ -16,9 +16,6 @@ export class BundleServerPlugin {
 
     webpackConfig
       .target("node")
-      .entry("static-props")
-      .add("@vuestatic/static-props")
-      .end()
       .entry("app")
       .add(path.join(coreVueApp, "entry-server.js"))
       .end();
@@ -28,11 +25,21 @@ export class BundleServerPlugin {
       .path(config.serverPath)
       .filename("[name].js");
 
-    webpackConfig.plugin("vue-server-bundle").use(
-      new VueServerBundlePlugin({
-        entryName: "app",
-      }),
+    webpackConfig.module
+      .rule("compile-props-handlers")
+      .test(path.join(coreVueApp, "apply-props-handlers.js"))
+      .use("val-loader")
+      .loader("val-loader")
+      .options({
+        handlers: config.propsHandlers,
+      });
+
+    webpackConfig.resolve.alias.set(
+      "@vuestatic/static-props",
+      path.join(coreVueApp, "static-props-server.js"),
     );
+
+    webpackConfig.plugin("vue-server-bundle").use(new VueServerBundlePlugin());
 
     webpackConfig.optimization.minimize(false);
     webpackConfig.externals(

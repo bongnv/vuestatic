@@ -2,6 +2,40 @@ const path = require("path");
 const { createBundleRenderer } = require("vue-server-renderer");
 const fs = require("fs").promises;
 
+const createGetProps = ({ config }) => {
+  // TODO: invalidate cache when we need to reload
+  // we generate app so pageProps will be available in context.
+  const createApp = require(path.join(config.serverPath, "app.js")).default;
+  return async (url) => {
+    const ctx = {
+      url,
+    };
+    await createApp(ctx);
+    return ctx.pageProps;
+  };
+};
+
+const createGetHTML = async (context) => {
+  const clientManifest = await getClientManifest(context.clientDevMiddleware);
+
+  const templateFile = path.resolve(__dirname, "index.html");
+  const template = await fs.readFile(templateFile, "utf-8");
+  const serverBundleFile = path.join(
+    context.config.serverPath,
+    "vue-ssr-server-bundle.json",
+  );
+  const renderer = createBundleRenderer(serverBundleFile, {
+    clientManifest,
+    template,
+    runInNewContext: false,
+  });
+
+  return (url) =>
+    renderer.renderToString({
+      url,
+    });
+};
+
 const getClientManifest = (middleware) => {
   return new Promise((resolve) => {
     middleware.waitUntilValid(() => {
@@ -14,7 +48,6 @@ const getClientManifest = (middleware) => {
 };
 
 const setupHooks = (context) => {
-  const templateFile = path.resolve(__dirname, "index.html");
   const invalid = () => {
     if (context.ready) {
       console.log("Compiling...");
@@ -25,28 +58,9 @@ const setupHooks = (context) => {
 
   const done = async () => {
     try {
-      const clientManifest = await getClientManifest(
-        context.clientDevMiddleware,
-      );
+      context.getHTML = await createGetHTML(context);
+      context.getProps = createGetProps(context);
 
-      const template = await fs.readFile(templateFile, "utf-8");
-
-      context.renderer = await createBundleRenderer(
-        path.resolve(
-          process.cwd(),
-          ".vuestatic/server/vue-ssr-server-bundle.json",
-        ),
-        {
-          clientManifest,
-          template,
-          runInNewContext: false,
-        },
-      );
-
-      context.getProps = require(path.resolve(
-        process.cwd(),
-        ".vuestatic/server/static-props.js",
-      ));
       const { callbacks } = context;
       context.ready = true;
       context.callbacks = [];
@@ -61,14 +75,6 @@ const setupHooks = (context) => {
   context.serverCompiler.hooks.watchRun.tap("DevMiddleware", invalid);
   context.serverCompiler.hooks.invalid.tap("DevMiddleware", invalid);
   context.serverCompiler.hooks.done.tapPromise("DevMiddleware", done);
-};
-
-const getPageHTML = async (renderer, getProps, url) => {
-  const pageData = await getProps(url);
-  return renderer.renderToString({
-    url,
-    pageData,
-  });
 };
 
 const devMiddleware = (config, serverCompiler, clientDevMiddleware) => {
@@ -103,7 +109,8 @@ const devMiddleware = (config, serverCompiler, clientDevMiddleware) => {
   return (req, res, next) => {
     if (!req.path.endsWith("pageProps.json")) {
       return waitForBuild(() => {
-        getPageHTML(context.renderer, context.getProps, req.path)
+        context
+          .getHTML(req.path)
           .then((html) => {
             res.send(html);
           })
@@ -112,7 +119,7 @@ const devMiddleware = (config, serverCompiler, clientDevMiddleware) => {
               return next();
             }
 
-            console.log("err", req.fullPath, err);
+            console.error("err", req.fullPath, err);
             res.status(500).send(err);
           });
       });
@@ -120,17 +127,18 @@ const devMiddleware = (config, serverCompiler, clientDevMiddleware) => {
 
     return waitForBuild(() => {
       try {
+        // TOD: using a hack here, need a proper design for server side
         context
           .getProps(req.path.replace(/pageProps\.json/i, ""))
-          .then((pageData) => {
-            res.json(pageData);
+          .then((pageProps) => {
+            res.json(pageProps);
           })
           .catch((err) => {
             console.log("err", err);
             res.status(err.code || 500).send(err);
           });
       } catch (err) {
-        console.log(err);
+        console.error(err);
       }
     });
   };

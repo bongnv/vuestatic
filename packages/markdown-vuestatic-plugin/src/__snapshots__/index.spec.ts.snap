@@ -1,0 +1,99 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`MarkdownVueStaticPlugin should create build config 1`] = `
+Object {
+  "module": Object {
+    "rules": Array [
+      Object {
+        "test": /\\\\\\.md\\$/,
+        "use": Array [
+          Object {
+            "loader": "@bongnv/markdown-loader",
+            "options": Object {
+              "plugins": Array [
+                [Function],
+              ],
+            },
+          },
+        ],
+      },
+      Object {
+        "test": /\\\\\\.\\(jpg\\|jpeg\\|png\\|svg\\|webp\\|gif\\|ico\\)\\$/,
+        "use": Array [
+          Object {
+            "loader": "image-trace-loader",
+          },
+          Object {
+            "loader": "file-loader",
+            "options": Object {
+              "name": "[name].[ext]",
+              "outputPath": "../../dist/_assets/images",
+              "publicPath": "/_assets/images",
+            },
+          },
+          Object {
+            "loader": "image-webpack-loader",
+            "options": Object {
+              "disable": true,
+            },
+          },
+        ],
+      },
+    ],
+  },
+  "resolve": Object {
+    "alias": Object {
+      "@content": "/content",
+    },
+  },
+}
+`;
+
+exports[`MarkdownVueStaticPlugin should create dev config 1`] = `
+Object {
+  "module": Object {
+    "rules": Array [
+      Object {
+        "test": /\\\\\\.md\\$/,
+        "use": Array [
+          Object {
+            "loader": "@bongnv/markdown-loader",
+            "options": Object {
+              "plugins": Array [
+                [Function],
+              ],
+            },
+          },
+        ],
+      },
+      Object {
+        "test": /\\\\\\.\\(jpg\\|jpeg\\|png\\|svg\\|webp\\|gif\\|ico\\)\\$/,
+        "use": Array [
+          Object {
+            "loader": "image-trace-loader",
+          },
+          Object {
+            "loader": "file-loader",
+            "options": Object {
+              "name": "[name].[ext]",
+              "outputPath": "static/_assets/images",
+              "publicPath": "/_assets/images",
+            },
+          },
+          Object {
+            "loader": "image-webpack-loader",
+            "options": Object {
+              "disable": true,
+            },
+          },
+        ],
+      },
+    ],
+  },
+  "resolve": Object {
+    "alias": Object {
+      "@content": "/content",
+    },
+  },
+}
+`;
