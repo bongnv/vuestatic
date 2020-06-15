@@ -417,6 +417,7 @@ Object {
   "isProd": false,
   "outputDir": "/dist",
   "plugins": Array [],
+  "propsHandlers": Array [],
   "publicPath": "/",
   "serverPath": "/.vuestatic/server",
   "serverWebpackConfig": Object {
